@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/config/string.dart';
 import '../../../business/usecase/category_books_usecase.dart';
 import '../../../data/model/books.dart';
+import '../../../data/model/new_model/new_books.dart';
 import '../../page/home.dart';
+import '../../page/new_home.dart';
 
 class GetStartedCubit extends Cubit<GetStartedState> {
   GetStartedCubit() : super(GetStartedInitState());
@@ -45,7 +47,7 @@ class GetStartedCubit extends Cubit<GetStartedState> {
           (l) => emit(GetStartedErrorState(l)),
           //if right
           (r) => books4 = booksFromJson(r));
-      navigateHome(context, books1, books2, books3, books4);
+     // navigateHome(context, books1, books2, books3, books4);
     } catch (e) {
       emit(GetStartedErrorState(e.toString()));
     }
@@ -55,6 +57,34 @@ class GetStartedCubit extends Cubit<GetStartedState> {
       Books books3, Books books4) {
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return Home(thriller: books1, fantasy: books2, horror: books3, health: books4);
+    }));
+  }
+
+
+
+  void getBookList(BuildContext context)async{
+
+    late BooksList booksList;
+    emit(GetStartedLoadingState());
+    try{
+      Either<String, String> listData =
+      await CategoryBooksUseCase.callnewBookList(AppString.newBookList);
+      listData.fold(
+        //if left
+              (l) => emit(GetStartedErrorState(l)),
+          //if right
+              (r) => booksList = booksListFromJson(r));
+      navigateNewHome(context,booksList);
+    }catch(e){
+      emit(GetStartedErrorState(e.toString()));
+    }
+  }
+
+
+
+  void navigateNewHome(BuildContext context,BooksList booksList) {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return NewHome(booksList:booksList);
     }));
   }
 }

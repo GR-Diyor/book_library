@@ -66,4 +66,40 @@ class RemoteDataSource {
       return Left(e.toString());
     }
   }
+
+
+
+
+  Future<Either<String,String>> getNewBookList(String api) async {
+    try {
+      Response r = await dio.get(
+          AppString.newBase+api
+      );
+    //  print((r.data));
+      if (r.statusCode == 200) {
+        return Right(jsonEncode(r.data));
+      }
+      return Left("Server exception:${r.statusCode}");
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+
+  Future<Either<String,String>> getNewSearchBook({required String text}) async {
+    try {
+      Response r = await dio.get(
+          AppString.newBase+AppString.newSearchBook+text
+      );
+      // print((r.data));
+      if (r.statusCode == 200) {
+        return Right(jsonEncode(r.data));
+      }
+      return Left("Server exception:${r.statusCode}");
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+
 }

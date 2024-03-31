@@ -1,11 +1,22 @@
 class AppString{
 
   ///Image String
-  static String placeholder ="https://www.bing.com/images/search?view=detailV2&ccid=vx9%2fIUj5&id=3B7650A146D55682645F765E60E786419299154C&thid=OIP.vx9_IUj50utS7cbaiRtoZAHaE8&mediaurl=https%3a%2f%2fst3.depositphotos.com%2f1186248%2f14351%2fi%2f950%2fdepositphotos_143511907-stock-photo-not-available-rubber-stamp.jpg&exph=682&expw=1023&q=not+available&simid=608054098357136066&FORM=IRPRST&ck=BADF0353AC59677CCFAA67227357E3CB&selectedIndex=1&ajaxhist=0&ajaxserp=0";
+  static String placeholder ="https://github.com/GR-Diyor/book_library/blob/main/assets/images/NOT_AVAILABLE.png";
+      //"https://www.bing.com/images/search?view=detailV2&ccid=vx9%2fIUj5&id=3B7650A146D55682645F765E60E786419299154C&thid=OIP.vx9_IUj50utS7cbaiRtoZAHaE8&mediaurl=https%3a%2f%2fst3.depositphotos.com%2f1186248%2f14351%2fi%2f950%2fdepositphotos_143511907-stock-photo-not-available-rubber-stamp.jpg&exph=682&expw=1023&q=not+available&simid=608054098357136066&FORM=IRPRST&ck=BADF0353AC59677CCFAA67227357E3CB&selectedIndex=1&ajaxhist=0&ajaxserp=0";
   static String overlay = "assets/images/overlay.png";
   static String books = "assets/images/books.png";
   static String background = "assets/images/background.png";
   static String background_2 = "assets/images/background_2.png";
+
+  /// new API
+  static String newBase = "https://gutendex.com";
+  static String newBookList = "/books";
+  static String newBookId = "/books/?ids=";
+  // /books/?ids=11
+  static String newSearchBook = "/books?search=";
+  // /books?search=dickens%20great
+
+
 
 
   ///Network String

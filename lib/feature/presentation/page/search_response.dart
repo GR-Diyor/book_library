@@ -25,7 +25,7 @@ class _SearchResponseState extends State<SearchResponse> {
     // TODO: implement initState
     super.initState();
     searchResponseCubit = BlocProvider.of<SearchResponseCubit>(context);
-    searchResponseCubit.getSearchBook(widget.text,context);
+    searchResponseCubit.getNewSearchBook(widget.text,context);
   }
 
   @override
@@ -66,7 +66,7 @@ class _SearchResponseState extends State<SearchResponse> {
               ),
               Expanded(
                 child: ListView.builder(
-                    itemCount: searchResponseCubit.searchBook.items.length-1,
+                    itemCount: searchResponseCubit.newSearchBook.results.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(
@@ -91,7 +91,7 @@ class _SearchResponseState extends State<SearchResponse> {
                                     borderRadius: BorderRadius.circular(10),
                                     image: DecorationImage(
                                         image: NetworkImage(
-                                            searchResponseCubit.searchBook.items[index].volumeInfo.imageLinks.thumbnail
+                                            searchResponseCubit.newSearchBook.results[index].formats.imageJpeg??AppString.placeholder
                                         ),
                                         fit: BoxFit.cover)),
                               ),
@@ -107,9 +107,9 @@ class _SearchResponseState extends State<SearchResponse> {
                                   Flexible(
                                     child: Text(
                                       // you can change it accordingly
-                                      searchResponseCubit.searchBook.items[index].volumeInfo.title.length>20?
-                                      searchResponseCubit.searchBook.items[index].volumeInfo.title.substring(0,20):
-                                      searchResponseCubit.searchBook.items[index].volumeInfo.title,
+                                      searchResponseCubit.newSearchBook.results[index].title.length>20?
+                                      searchResponseCubit.newSearchBook.results[index].title.substring(0,20):
+                                      searchResponseCubit.newSearchBook.results[index].title,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.lato(
                                           textStyle: const TextStyle(
@@ -123,9 +123,9 @@ class _SearchResponseState extends State<SearchResponse> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                      searchResponseCubit.searchBook.items[index].volumeInfo.authors[0].length>20?
-                                      searchResponseCubit.searchBook.items[index].volumeInfo.authors[0].substring(0,20):
-                                      searchResponseCubit.searchBook.items[index].volumeInfo.authors[0],
+                                      searchResponseCubit.newSearchBook.results[index].authors[0].name.length>20?
+                                      searchResponseCubit.newSearchBook.results[index].authors[0].name.substring(0,20):
+                                      searchResponseCubit.newSearchBook.results[index].authors[0].name,
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.lato(
                                           textStyle: TextStyle(
@@ -138,8 +138,8 @@ class _SearchResponseState extends State<SearchResponse> {
                                     height: 1.h,
                                   ),
                                   Text(
-                                    "Page Count: ${
-                                        searchResponseCubit.searchBook.items[index].volumeInfo.pageCount
+                                    "Download Count: ${
+                                        searchResponseCubit.newSearchBook.results[index].downloadCount
                                         }",
                                     style: GoogleFonts.lato(
                                         textStyle: TextStyle(
@@ -150,11 +150,10 @@ class _SearchResponseState extends State<SearchResponse> {
                                   SizedBox(
                                     height: 1.h,
                                   ),
-                                  Text(searchResponseCubit.searchBook.items[index].volumeInfo.maturityRating.name=="NOT_MATURE"
+                                  Text(searchResponseCubit.newSearchBook.results[index].copyright
 
-                                      ?"Not rating available"
-                                        : "⭐ ${
-                                      searchResponseCubit.searchBook.items[index].volumeInfo.maturityRating.name}",
+                                      ?"CopyRight"
+                                        : "No CopyRight",
                                     style: GoogleFonts.lato(
                                         textStyle: TextStyle(
                                             color: Colors.grey[400],
@@ -166,7 +165,7 @@ class _SearchResponseState extends State<SearchResponse> {
                                   ),
                                   MaterialButton(
                                     onPressed: () {
-                                      searchResponseCubit.navigateDetailBook(context, index);
+                                      searchResponseCubit.navigateReadBook(context, index);
                                     },
                                     color: AppColor.dark,
                                     child: Text(

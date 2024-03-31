@@ -9,6 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/config/screen_style.dart';
 import 'feature/presentation/cubit/home/home_cubit.dart';
+import 'feature/presentation/cubit/new_home/new_home_cubit.dart';
+import 'feature/presentation/cubit/read_book/read_book_cubit.dart';
 
 void main() {
   AppStyle.init();
@@ -27,6 +29,12 @@ void main() {
             ),
             BlocProvider<BookDetailCubit>(
               create: (BuildContext context) => BookDetailCubit(),
+            ),
+            BlocProvider<NewHomeCubit>(
+              create: (BuildContext context) => NewHomeCubit(),
+            ),
+            BlocProvider<ReadBookCubit>(
+              create: (BuildContext context) => ReadBookCubit(),
             ),
           ],
      child: const MyApp()));

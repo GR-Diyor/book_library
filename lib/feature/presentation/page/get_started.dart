@@ -39,7 +39,7 @@ class _GetStartedState extends State<GetStarted> {
             return Errors(error:state.error);
           }
           return GetStartedWidget(callback: () {
-            getStartedCubit.getcategorydata(context);
+            getStartedCubit.getBookList(context);
           });
         }
     );

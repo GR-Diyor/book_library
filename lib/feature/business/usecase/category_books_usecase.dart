@@ -11,6 +11,14 @@ class CategoryBooksUseCase{
   }
 
   static Future<Either<String, String>> callSearchBook({required String text}){
-    return RemoteDataSource().getSearchBook(text:text);
+    return RemoteDataSource().getSearchBook(text:text.replaceAll(' ','%20' ));
+  }
+
+  static Future<Either<String, String>> callnewBookList(String api){
+    return RemoteDataSource().getNewBookList(api);
+  }
+
+  static Future<Either<String, String>> callnewSearchBook({required String text}){
+    return RemoteDataSource().getNewSearchBook(text:text.replaceAll(' ','%20'));
   }
 }
