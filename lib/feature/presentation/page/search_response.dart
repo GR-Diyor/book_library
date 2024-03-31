@@ -89,11 +89,10 @@ class _SearchResponseState extends State<SearchResponse> {
                                 width: 140,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            searchResponseCubit.newSearchBook.results[index].formats.imageJpeg??AppString.placeholder
-                                        ),
-                                        fit: BoxFit.cover)),
+                                    image: searchResponseCubit.newSearchBook.results[index].formats.imageJpeg!=null?DecorationImage(
+                                        image:NetworkImage(
+                                            searchResponseCubit.newSearchBook.results[index].formats.imageJpeg!),
+                                        fit: BoxFit.cover):DecorationImage(image: AssetImage(AppString.book_available), fit: BoxFit.cover)),
                               ),
                                SizedBox(
                                 width: 2.h,

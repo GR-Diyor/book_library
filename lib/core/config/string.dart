@@ -7,6 +7,7 @@ class AppString{
   static String books = "assets/images/books.png";
   static String background = "assets/images/background.png";
   static String background_2 = "assets/images/background_2.png";
+  static String book_available = "assets/images/NOT_AVAILABLE.png";
 
   /// new API
   static String newBase = "https://gutendex.com";
