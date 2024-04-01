@@ -90,11 +90,17 @@ class SearchResponseCubit extends Cubit<SearchResponseState> {
   }
 
   void navigateReadBook(BuildContext context, int index) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return ReadBook(
-        epubFile: newSearchBook.results[index].formats.applicationEpubZip!,
-      );
-    }));
-  }
+    if (newSearchBook.results[index].formats.applicationEpubZip!=null) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return ReadBook(
+          epubFile: newSearchBook.results[index].formats.applicationEpubZip!,
+        );
+      }));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Kitobni ko'rib bo'lmadi!!!")));
+    }
+
+}
 
 }

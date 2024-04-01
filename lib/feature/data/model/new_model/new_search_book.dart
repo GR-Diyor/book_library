@@ -246,8 +246,8 @@ String newSearchBookToJson(NewSearchBook data) => json.encode(data.toJson());
 
 class NewSearchBook {
   int count;
-  String next;
-  dynamic previous;
+  String? next;
+  String? previous;
   List<Result> results;
 
   NewSearchBook({
