@@ -1,4 +1,6 @@
 class AppString{
+  static String appName = 'Book Library';
+
 
   ///Image String
   static String placeholder ="https://github.com/GR-Diyor/book_library/blob/main/assets/images/NOT_AVAILABLE.png";
@@ -86,5 +88,7 @@ class AppString{
  ///search response
 static String result = "RESULT";
 static String searchdetail = "DETAILS";
+
+static String topilmadi = "Bu jumla orqali kitob topilmadi";
 
 }

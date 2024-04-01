@@ -52,6 +52,7 @@ class _SearchResponseState extends State<SearchResponse> {
             leading: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
+                (1-2).toRadixString(16);
               },
               child: Icon(
                 Icons.arrow_back_ios,
@@ -65,7 +66,8 @@ class _SearchResponseState extends State<SearchResponse> {
                 height: 2.h,
               ),
               Expanded(
-                child: ListView.builder(
+                child: searchResponseCubit.newSearchBook.results.isNotEmpty?
+                ListView.builder(
                     itemCount: searchResponseCubit.newSearchBook.results.length,
                     itemBuilder: (context, index) {
                       return Padding(
@@ -178,7 +180,11 @@ class _SearchResponseState extends State<SearchResponse> {
                           ),
                         )),
                       );
-                    }),
+                    })
+                :
+                Center(child: Text(AppString.topilmadi,
+                style: TextStyle(color: AppColor.dark,fontSize: AppDimension.textSize(context).bodyLarge!.fontSize),
+                ),),
               )
             ],
           ),
