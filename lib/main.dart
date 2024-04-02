@@ -7,7 +7,6 @@ import 'package:book_library/feature/presentation/cubit/search_response/search_r
 import 'package:book_library/feature/presentation/page/get_started.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'core/config/screen_style.dart';
 import 'core/config/string.dart';
 import 'feature/presentation/cubit/home/home_cubit.dart';
@@ -22,22 +21,22 @@ void main() {
       MultiBlocProvider(
           providers: [
             BlocProvider<GetStartedCubit>(
-              create: (BuildContext context) => GetStartedCubit(),
+              create: (BuildContext context) => sl<GetStartedCubit>(),
             ),
             BlocProvider<HomeCubit>(
-              create: (BuildContext context) => HomeCubit(),
+              create: (BuildContext context) =>  sl<HomeCubit>(),
             ),
             BlocProvider<SearchResponseCubit>(
-              create: (BuildContext context) => SearchResponseCubit(),
+              create: (BuildContext context) => sl<SearchResponseCubit>(),
             ),
             BlocProvider<BookDetailCubit>(
-              create: (BuildContext context) => BookDetailCubit(),
+              create: (BuildContext context) => sl<BookDetailCubit>(),
             ),
             BlocProvider<NewHomeCubit>(
-              create: (BuildContext context) => NewHomeCubit(),
+              create: (BuildContext context) => sl<NewHomeCubit>(),
             ),
             BlocProvider<ReadBookCubit>(
-              create: (BuildContext context) => ReadBookCubit(),
+              create: (BuildContext context) => sl<ReadBookCubit>(),
             ),
           ],
      child: const MyApp()),

@@ -52,7 +52,6 @@ class _SearchResponseState extends State<SearchResponse> {
             leading: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-                (1-2).toRadixString(16);
               },
               child: Icon(
                 Icons.arrow_back_ios,
