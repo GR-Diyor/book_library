@@ -22,7 +22,6 @@ class LocalDatasourse {
     isar.writeAsync((isar) {
       isar.booksLists.clear();
       isar.booksLists.put(booksList);
-      print(isar.booksLists.where().findFirst());
     });
   }
 
