@@ -83,7 +83,10 @@ class AppString{
  static String pages = "Pages";
  static String whatit = "What's it about?";
 
-
+ /// new book detail
+static String downloadBook = "Download";
+static String downloadCount = "Download Count";
+static String subjects = "Subjects";
 
  ///search response
 static String result = "RESULT";

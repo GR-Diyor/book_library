@@ -4,15 +4,19 @@
 
 import 'dart:convert';
 
+import 'package:isar/isar.dart';
+part 'new_books.g.dart';
+
 BooksList booksListFromJson(String str) => BooksList.fromJson(json.decode(str));
 
 String booksListToJson(BooksList data) => json.encode(data.toJson());
-
+@collection
 class BooksList {
+  @id
   int count;
   String next;
-  dynamic previous;
-  List<Result> results;
+  String? previous;
+  List<NewBook> results;
 
   BooksList({
     required this.count,
@@ -25,7 +29,7 @@ class BooksList {
     count: json["count"],
     next: json["next"],
     previous: json["previous"],
-    results: List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
+    results: List<NewBook>.from(json["results"].map((x) => NewBook.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -35,8 +39,9 @@ class BooksList {
     "results": List<dynamic>.from(results.map((x) => x.toJson())),
   };
 }
+@embedded
+class NewBook{
 
-class Result {
   int id;
   String title;
   List<Author> authors;
@@ -46,10 +51,15 @@ class Result {
   List<Language> languages;
   bool copyright;
   MediaType mediaType;
-  Formats formats;
+  Formats? formats;
   int downloadCount;
+  static NewBook? _instance;
+  static get instance=>_instance??NewBook(id:0,title: "",authors: [],translators: [],
+  subjects: [],bookshelves: [],languages: [],copyright: false,mediaType: MediaType.TEXT,formats: null,
+    downloadCount: 0,
+  );
 
-  Result({
+  NewBook({
     required this.id,
     required this.title,
     required this.authors,
@@ -63,7 +73,7 @@ class Result {
     required this.downloadCount,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory NewBook.fromJson(Map<String, dynamic> json) => NewBook(
     id: json["id"],
     title: json["title"],
     authors: List<Author>.from(json["authors"].map((x) => Author.fromJson(x))),
@@ -87,11 +97,11 @@ class Result {
     "languages": List<dynamic>.from(languages.map((x) => languageValues.reverse[x])),
     "copyright": copyright,
     "media_type": mediaTypeValues.reverse[mediaType],
-    "formats": formats.toJson(),
+    "formats": formats?.toJson(),
     "download_count": downloadCount,
   };
 }
-
+@embedded
 class Author {
   String name;
   int? birthYear;
@@ -115,7 +125,7 @@ class Author {
     "death_year": deathYear,
   };
 }
-
+@embedded
 class Formats {
   String textHtml;
   String applicationEpubZip;

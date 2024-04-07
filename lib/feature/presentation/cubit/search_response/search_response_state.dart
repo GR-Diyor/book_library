@@ -1,27 +1,25 @@
 import 'package:equatable/equatable.dart';
 
 abstract class SearchResponseState extends Equatable{
-
+@override
+List<Object?> get props => [];
 }
 
 class SearchResponseInitState extends SearchResponseState{
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => super.props;
 
 }
 
 class SearchResponseLoading extends SearchResponseState{
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => super.props;
 
 }
 
 class SearchResponseLoaded extends SearchResponseState{
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => super.props;
 
 }
 
@@ -30,6 +28,6 @@ class SearchResponseError extends SearchResponseState{
   SearchResponseError(this.error);
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => super.props;
 
 }

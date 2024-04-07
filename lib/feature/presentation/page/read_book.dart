@@ -1,3 +1,4 @@
+import 'package:epub_view/epub_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,8 +9,8 @@ import '../widget/error.dart';
 import '../widget/loading.dart';
 
 class ReadBook extends StatefulWidget {
-  final String epubFile;
-  const ReadBook({required this.epubFile,super.key});
+  final EpubController epubController;
+  const ReadBook({required this.epubController,super.key});
 
   @override
   State<ReadBook> createState() => _ReadBookState();
@@ -24,7 +25,7 @@ class _ReadBookState extends State<ReadBook> {
   void initState() {
     super.initState();
     readBookCubit = BlocProvider.of(context);
-    readBookCubit.loadEpub(widget.epubFile);
+    readBookCubit.epubController = widget.epubController;
   }
 
   @override

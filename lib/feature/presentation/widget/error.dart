@@ -12,15 +12,14 @@ class Errors extends StatefulWidget {
 class _ErrorsState extends State<Errors> {
   @override
   Widget build(BuildContext context) {
-    return(
+    return
       Scaffold(
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-            child: Text("Xatolik yuzaga keldi.\n${widget.error}"),
+            child: SingleChildScrollView(child: Text("Xatolik yuzaga keldi.\n${widget.error}")),
           ),
         ),
-      )
-    );
+      );
   }
 }

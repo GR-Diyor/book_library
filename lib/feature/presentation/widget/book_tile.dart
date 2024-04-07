@@ -1,5 +1,9 @@
+import 'package:book_library/core/config/color.dart';
 import 'package:book_library/core/config/dimension.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import '../../../core/config/string.dart';
 
 class BookTile extends StatelessWidget {
   final String title;
@@ -8,6 +12,7 @@ class BookTile extends StatelessWidget {
   final int download;
   final String rating;
   final bool copyRight;
+  final int id;
   final VoidCallback ontap;
 
   const BookTile({
@@ -18,46 +23,57 @@ class BookTile extends StatelessWidget {
     required this.download,
     required this.rating,
     required this.copyRight,
+    required this.id,
     required this.ontap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
+      padding:  EdgeInsets.only(bottom: 1.h),
       child: InkWell(
         onTap: ontap,
         child: Container(
-          padding: const EdgeInsets.all(10),
+          padding:  EdgeInsets.all(1.h),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+            color: AppColor.cardColor.withOpacity(0.2),
             borderRadius: BorderRadius.circular(15),
           ),
           child: Row(
             children: [
               Container(
+               // height: 100,
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.2),
+                      color: AppColor.cardColor.withOpacity(0.3),
                       spreadRadius: 2,
-                      blurRadius: 8,
-                      offset: Offset(2, 2),
+                      blurRadius: 4,
+                      offset: const Offset(2, 2),
                     )
                   ],
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    coverUrl,
-                    width: 100,
+                child: Hero(
+                  tag: '${id+download}',
+                  child: CachedNetworkImage(
+                    height: 120,
+                    width: 90,
+                    imageUrl: coverUrl,
+                    imageBuilder:(context, imageProvider) =>
+                        Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                          Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
                 ),
               ),
-              SizedBox(width: 10),
+              SizedBox(width: 2.w),
               Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,10 +83,10 @@ class BookTile extends StatelessWidget {
                         maxLines: 2,
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text("By : $author",
                           style: Theme.of(context).textTheme.labelMedium),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Text(
                         "Download count: $download",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(

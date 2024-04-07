@@ -5,4 +5,5 @@ class AppColor{
   static Color background = const Color(0xfff012AC0);
   static Color light = Colors.white;
   static Color dark = Colors.black45;
+  static Color cardColor = Colors.deepPurple;
 }

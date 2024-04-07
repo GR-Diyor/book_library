@@ -2,6 +2,10 @@ import 'package:book_library/core/config/utill/dimension_utill.dart';
 import 'package:flutter/material.dart';
 
 class AppDimension{
+  static double height(context)=>MediaQuery.of(context).size.height;
+  static double width(context)=>MediaQuery.of(context).size.width;
+
+
   static TextTheme textSize(context) => Theme.of(context).textTheme;
   static double LargeText(context)=>Theme.of(context).textTheme.labelLarge!.fontSize!;
   static double MediumText(context)=>Theme.of(context).textTheme.labelMedium!.fontSize!;

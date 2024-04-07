@@ -30,9 +30,9 @@ class _GetStartedState extends State<GetStarted> {
     return  BlocBuilder<GetStartedCubit,GetStartedState>(
         builder: (context,state) {
 
-          if(state is GetStartedLoadingState){
-             return const Loading();
-          }
+          // if(state is GetStartedLoadingState){
+          //    return const Loading();
+          // }
           if(state is GetStartedLoadedState){
           }
           if(state is GetStartedErrorState){

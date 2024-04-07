@@ -96,8 +96,8 @@ class RemoteDataSource {
         return Right(jsonEncode(r.data));
       }
       return Left("Server exception:${r.statusCode}");
-    } catch (e) {
-      return Left(e.toString());
+    } on DioError catch (e) {
+      return Left(e.message.toString());
     }
   }
 

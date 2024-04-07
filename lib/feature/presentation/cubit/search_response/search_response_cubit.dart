@@ -91,11 +91,11 @@ class SearchResponseCubit extends Cubit<SearchResponseState> {
 
   void navigateReadBook(BuildContext context, int index) {
     if (newSearchBook.results[index].formats.applicationEpubZip!=null) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return ReadBook(
-          epubFile: newSearchBook.results[index].formats.applicationEpubZip!,
-        );
-      }));
+      // Navigator.push(context, MaterialPageRoute(builder: (context) {
+      //   return ReadBook(
+      //   //  epubController: newSearchBook.results[index].,
+      //   );
+      // }));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Kitobni ko'rib bo'lmadi!!!")));

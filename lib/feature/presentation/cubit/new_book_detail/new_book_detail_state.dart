@@ -1,35 +1,32 @@
 import 'package:equatable/equatable.dart';
 
-abstract class GetStartedState extends Equatable{
+abstract class NewBookDetailState extends Equatable{
 @override
 List<Object?> get props => [];
 }
 
-
-class GetStartedInitState extends GetStartedState{
+class NewBookDetailInitState extends NewBookDetailState{
   @override
   // TODO: implement props
   List<Object?> get props => super.props;
 
 }
 
-class GetStartedLoadingState extends GetStartedState{
+class NewBookDetailLoadingState extends NewBookDetailState{
   @override
   // TODO: implement props
   List<Object?> get props => super.props;
 }
 
-class GetStartedLoadedState extends GetStartedState{
+class NewBookDetailLoadedState extends NewBookDetailState{
   @override
   // TODO: implement props
   List<Object?> get props => super.props;
 }
 
-class GetStartedErrorState extends GetStartedState{
-
-  GetStartedErrorState(this.error);
+class NewBookDetailErrorState extends NewBookDetailState{
   final String error;
-
+  NewBookDetailErrorState(this.error);
   @override
   // TODO: implement props
   List<Object?> get props => super.props;

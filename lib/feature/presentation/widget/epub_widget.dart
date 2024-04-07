@@ -20,8 +20,11 @@ class _EpubWidgetState extends State<EpubWidget> {
         // Show actual chapter name
         title: EpubViewActualChapter(
             controller: widget.epubController,
-            builder: (chapterValue) => Text(
-              '${'Chapter: ${chapterValue?.chapter?.Title?.replaceAll('\n', '').trim() ?? ''}'.substring(0,30,)}...',
+            builder: (chapterValue) => chapterValue?.chapter?.Title!=null?Text(
+              chapterValue!.chapter!.Title!.length>30?'${(chapterValue.chapter?.Title?.replaceAll('\n', '').trim() ?? '').substring(0,30,)}...':chapterValue.chapter!.Title!,
+              textAlign: TextAlign.start,
+              style: TextStyle(fontSize: AppDimension.textSize(context).bodyLarge!.fontSize),
+            ):Text("Awesome eBook",
               textAlign: TextAlign.start,
               style: TextStyle(fontSize: AppDimension.textSize(context).bodyLarge!.fontSize),
             )

@@ -1,11 +1,15 @@
+import 'package:book_library/feature/data/datasourse/local/local_datasourse.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:isar/isar.dart';
 import 'color.dart';
 
 class AppStyle{
 
   static Future<void>init()async {
     WidgetsFlutterBinding.ensureInitialized();
+    await Isar.initialize('book_library');
+     LocalDatasourse().openData();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown
