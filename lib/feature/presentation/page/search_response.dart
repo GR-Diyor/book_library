@@ -1,6 +1,8 @@
 import 'package:book_library/core/config/dimension.dart';
+import 'package:book_library/feature/data/model/new_model/new_search_book.dart';
 import 'package:book_library/feature/presentation/cubit/search_response/search_response_cubit.dart';
 import 'package:book_library/feature/presentation/cubit/search_response/search_response_state.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,8 +12,8 @@ import '../widget/error.dart';
 import '../widget/loading.dart';
 
 class SearchResponse extends StatefulWidget {
-  final String text;
-  const SearchResponse({required this.text,super.key});
+  final NewSearchBook newSearchBook;
+  const SearchResponse({required this.newSearchBook,super.key});
 
   @override
   State<SearchResponse> createState() => _SearchResponseState();
@@ -25,7 +27,7 @@ class _SearchResponseState extends State<SearchResponse> {
     // TODO: implement initState
     super.initState();
     searchResponseCubit = BlocProvider.of<SearchResponseCubit>(context);
-    searchResponseCubit.getNewSearchBook(widget.text,context);
+    searchResponseCubit.newSearchBook = widget.newSearchBook;
   }
 
   @override
@@ -61,9 +63,6 @@ class _SearchResponseState extends State<SearchResponse> {
           ),
           body: Column(
             children: [
-               SizedBox(
-                height: 2.h,
-              ),
               Expanded(
                 child: searchResponseCubit.newSearchBook.results.isNotEmpty?
                 ListView.builder(
@@ -90,10 +89,23 @@ class _SearchResponseState extends State<SearchResponse> {
                                 width: 140,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    image: searchResponseCubit.newSearchBook.results[index].formats.imageJpeg!=null?DecorationImage(
-                                        image:NetworkImage(
-                                            searchResponseCubit.newSearchBook.results[index].formats.imageJpeg!),
-                                        fit: BoxFit.cover):DecorationImage(image: AssetImage(AppString.book_available), fit: BoxFit.cover)),
+                                ),
+                                child: CachedNetworkImage(
+                                  height: 210,
+                                  width: 140,
+                                  imageUrl: searchResponseCubit.newSearchBook.results[index].formats.imageJpeg??AppString.placeholder,
+                                  imageBuilder:(context, imageProvider) =>
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                      Center(child: CircularProgressIndicator(value: downloadProgress.progress,color: AppColor.light,)),
+                                  errorWidget: (context, url, error) => Image(image: AssetImage(AppString.book_available), fit: BoxFit.cover),
+                                ),
                               ),
                                SizedBox(
                                 width: 2.h,

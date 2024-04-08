@@ -69,7 +69,7 @@ class BookTile extends StatelessWidget {
                         ),
                       progressIndicatorBuilder: (context, url, downloadProgress) =>
                           Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                    errorWidget: (context, url, error) => Image(image: AssetImage(AppString.book_available), fit: BoxFit.cover),
                   ),
                 ),
               ),

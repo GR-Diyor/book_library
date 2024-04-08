@@ -10,10 +10,10 @@ class HomeCubit extends Cubit<HomeState>{
   void navigateSearch(BuildContext context,String? text){
     if(text!=null&&text.isNotEmpty&&text.trim()!="") {
       FocusScope.of(context).unfocus();
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) {
-            return SearchResponse(text: text.toString());
-          }));
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) {
+      //       return SearchResponse(text: text.toString());
+      //     }));
     }
   }
 }
