@@ -6,6 +6,7 @@ import 'package:book_library/di_container.dart';
 import 'package:book_library/feature/data/datasourse/local/local_datasourse.dart';
 import 'package:book_library/feature/presentation/cubit/book_detail/book_detail_cubit.dart';
 import 'package:book_library/feature/presentation/cubit/get_started/get_started_cubit.dart';
+import 'package:book_library/feature/presentation/cubit/new_search_book_detail/new_search_book_detail_cubit.dart';
 import 'package:book_library/feature/presentation/cubit/search_response/search_response_cubit.dart';
 import 'package:book_library/feature/presentation/page/get_started.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,9 @@ Future<void> main() async{
             ),
             BlocProvider<NewBookDetailCubit>(
               create: (BuildContext context) => sl<NewBookDetailCubit>(),
+            ),
+            BlocProvider<NewSearchDetailCubit>(
+              create: (BuildContext context) => sl<NewSearchDetailCubit>(),
             ),
           ],
      child: const MyApp()),

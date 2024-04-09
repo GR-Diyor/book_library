@@ -55,6 +55,7 @@ class _NewHomeState extends State<NewHome> with WidgetsBindingObserver{
           }
 
           return NewHomeBody(
+            isSearchLoading: newHomeCubit.isSearchLoading,
             t: t,
             callback: () {
               newHomeCubit.navigateSearch(context, t.text);

@@ -32,17 +32,6 @@ class BookDetailBody extends StatelessWidget {
         actions: [
           GestureDetector(
             onTap: () async {
-              try {
-                var url = IsSearchBook?bookDetailCubit.searchBook.items[0].accessInfo.epub.isAvailable:bookDetailCubit.book.items[0].accessInfo.epub.isAvailable;
-                if (url == true) {
-                  bookDetailCubit.openfile(IsSearchBook?bookDetailCubit.searchBook.items[0].accessInfo.epub.acsTokenLink:
-                  bookDetailCubit.book.items[0].volumeInfo.canonicalVolumeLink,"EpubBook");
-                }
-              } catch (e) {
-                if (kDebugMode) {
-                  print("Not available $e");
-                }
-              }
             },
             child:Icon(
               Icons.download_outlined,

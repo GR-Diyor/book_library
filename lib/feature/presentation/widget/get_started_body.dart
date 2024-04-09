@@ -44,6 +44,7 @@ class GetStartedWidget extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Container(
+              width: AppDimension.width(context),
               decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -123,30 +124,29 @@ class GetStartedWidget extends StatelessWidget {
                       ),
                     ],
                   )),
-
-                  //  SizedBox(
-                  //   height: 20.sp,
-                  // ),
-                  Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 6.w),
-                    child: GestureDetector(
-                      onTap:
-                      callback,
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(20)),
-                        child:  Text(
-                          AppString.explore,
-                          style:  TextStyle(
-                              fontSize: AppDimension.LargeText(context),
-                              color: Colors.white,
-                              fontWeight: FontWeight.w900),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap:
+                        callback,
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: AppDimension.width(context)*0.8,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(20)),
+                          child:  Text(
+                            AppString.explore,
+                            style:  TextStyle(
+                                fontSize: AppDimension.LargeText(context),
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                   SizedBox(
                     height: 3.h,

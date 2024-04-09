@@ -1,5 +1,4 @@
 import 'package:book_library/core/config/dimension.dart';
-import 'package:book_library/core/config/theme.dart';
 import 'package:book_library/feature/data/model/new_model/new_books.dart';
 import 'package:book_library/feature/presentation/page/new_book_detail.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +10,15 @@ import '../../../core/config/string.dart';
 import 'book_tile.dart';
 
 class NewHomeBody extends StatelessWidget {
+  final bool isSearchLoading;
   final BooksList? booksList;
   final TextEditingController t;
   final VoidCallback callback;
 
   const NewHomeBody(
-      {required this.callback,
+      {
+        this.isSearchLoading=false,
+        required this.callback,
       required this.t,
       required this.booksList,
       super.key});
@@ -27,6 +29,7 @@ class NewHomeBody extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColor.background,
       body: Column(
+        mainAxisSize: MainAxisSize.max,
         children: [
           Expanded(
             child: Container(
@@ -45,22 +48,27 @@ class NewHomeBody extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.h),
                       child: SizedBox(
-                        height: 4.h,
-                        child: TextField(
-                          controller: t,
-                          decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.all(10),
-                              hintText: AppString.searchbook,
-                              hintStyle: TextStyle(
-                                  fontSize: AppDimension.textSize(context)
-                                      .bodyMedium!
-                                      .fontSize),
-                              prefixIcon: const Icon(Icons.search),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(40))),
+                        height: 5.h,
+                        child: Center(
+                          child: TextField(
+                            controller: t,
+                            cursorColor: AppColor.background,
+                            cursorHeight: AppDimension.textSize(context).bodyLarge!.fontSize,
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding: const EdgeInsets.all(10),
+                                hintText: AppString.searchbook,
+                                hintStyle: TextStyle(
+                                    fontSize: AppDimension.textSize(context)
+                                        .bodyMedium!
+                                        .fontSize),
+                                prefixIcon: const Icon(Icons.search),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(40))),
+                          ),
                         ),
                       ),
                     ),
@@ -75,10 +83,13 @@ class NewHomeBody extends StatelessWidget {
                       onPressed: callback,
                       splashColor: AppColor.light,
                       color: Colors.white,
-                      child: Text(
+                      child: !isSearchLoading?Text(
                         AppString.search,
                         style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
+                      ):const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator.adaptive()),
                     ),
                     SizedBox(
                       height: 2.h,
@@ -123,8 +134,6 @@ class NewHomeBody extends StatelessWidget {
                             coverUrl:booksList!.results[index].formats!.imageJpeg,
                             author: booksList!.results[index].authors[0].name,
                             download: booksList!.results[index].downloadCount,
-                            rating: booksList!.results[index].downloadCount
-                                .toString(),
                             copyRight: booksList!.results[index].copyright,
                             id: booksList!.results[index].id,
                             ontap: () {

@@ -9,6 +9,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
+import 'feature/presentation/cubit/new_search_book_detail/new_search_book_detail_cubit.dart';
+
 final sl = GetIt.instance;
 
 Future<void> init() async {
@@ -21,6 +23,7 @@ Future<void> init() async {
   sl.registerFactory(() => NewHomeCubit());
   sl.registerFactory(() => ReadBookCubit());
   sl.registerFactory(() => NewBookDetailCubit());
+  sl.registerFactory(() => NewSearchDetailCubit());
 
 
   // External

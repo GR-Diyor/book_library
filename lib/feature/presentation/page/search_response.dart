@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/config/color.dart';
 import '../../../core/config/string.dart';
+import '../widget/book_tile.dart';
 import '../widget/error.dart';
 import '../widget/loading.dart';
 
@@ -41,163 +42,65 @@ class _SearchResponseState extends State<SearchResponse> {
           return Errors(error: state.error);
         }
 
-        return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            title:   Text(
-              AppString.result,
-              style:  TextStyle(
+        return Container(
+          width: AppDimension.width(context),
+          decoration:BoxDecoration(
+              color: AppColor.background,
+              image: DecorationImage(
+                  alignment: Alignment.topCenter,
+                  opacity: 0.4,
+                  image: AssetImage(AppString.overlay),
+                  fit: BoxFit.contain)),
+          child: Scaffold(
+            backgroundColor: AppColor.light.withOpacity(0.6),
+            appBar: AppBar(
+              backgroundColor: AppColor.transparent,
+              title:   Text(
+                AppString.result,
+                style:  TextStyle(
+                    color: AppColor.dark,
+                    fontWeight: FontWeight.bold,),
+              ),
+              centerTitle: true,
+              leading: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Icon(
+                  Icons.arrow_back_ios,
                   color: AppColor.dark,
-                  fontWeight: FontWeight.bold,),
-            ),
-            centerTitle: true,
-            leading: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: AppColor.dark,
+                ),
               ),
             ),
-          ),
-          body: Column(
-            children: [
-              Expanded(
-                child: searchResponseCubit.newSearchBook.results.isNotEmpty?
-                ListView.builder(
-                    itemCount: searchResponseCubit.newSearchBook.results.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15.0, vertical: 10),
-                        child: (Container(
-                          padding: const EdgeInsets.all(10),
-                          height: 270,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: AppColor.background,
-                              image:  DecorationImage(
-                                  opacity: 0.4,
-                                  image: AssetImage(AppString.overlay),
-                                  fit: BoxFit.cover)),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 210,
-                                width: 140,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: CachedNetworkImage(
-                                  height: 210,
-                                  width: 140,
-                                  imageUrl: searchResponseCubit.newSearchBook.results[index].formats.imageJpeg??AppString.placeholder,
-                                  imageBuilder:(context, imageProvider) =>
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover),
-                                        ),
-                                      ),
-                                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                      Center(child: CircularProgressIndicator(value: downloadProgress.progress,color: AppColor.light,)),
-                                  errorWidget: (context, url, error) => Image(image: AssetImage(AppString.book_available), fit: BoxFit.cover),
-                                ),
-                              ),
-                               SizedBox(
-                                width: 2.h,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                   SizedBox(
-                                    height: 2.5.h,
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      // you can change it accordingly
-                                      searchResponseCubit.newSearchBook.results[index].title.length>20?
-                                      searchResponseCubit.newSearchBook.results[index].title.substring(0,20):
-                                      searchResponseCubit.newSearchBook.results[index].title,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: GoogleFonts.lato(
-                                          textStyle: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold)),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      searchResponseCubit.newSearchBook.results[index].authors[0].name.length>20?
-                                      searchResponseCubit.newSearchBook.results[index].authors[0].name.substring(0,20):
-                                      searchResponseCubit.newSearchBook.results[index].authors[0].name,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: GoogleFonts.lato(
-                                          textStyle: TextStyle(
-                                              color: Colors.grey[400],
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold)),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  Text(
-                                    "Download Count: ${
-                                        searchResponseCubit.newSearchBook.results[index].downloadCount
-                                        }",
-                                    style: GoogleFonts.lato(
-                                        textStyle: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold)),
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  Text(searchResponseCubit.newSearchBook.results[index].copyright
-
-                                      ?"CopyRight"
-                                        : "No CopyRight",
-                                    style: GoogleFonts.lato(
-                                        textStyle: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold)),
-                                  ),
-                                  SizedBox(
-                                    height: 3.h,
-                                  ),
-                                  MaterialButton(
-                                    onPressed: () {
-                                      searchResponseCubit.navigateReadBook(context, index);
-                                    },
-                                    color: AppColor.dark,
-                                    child: Text(
-                                      AppString.searchdetail,
-                                      style: TextStyle(color: AppColor.light),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        )),
-                      );
-                    })
-                :
-                Center(child: Text(AppString.topilmadi,
-                style: TextStyle(color: AppColor.dark,fontSize: AppDimension.textSize(context).bodyLarge!.fontSize),
-                ),),
-              )
-            ],
+            body: Column(
+              children: [
+                Expanded(
+                  child: searchResponseCubit.newSearchBook.results.isNotEmpty?
+                  ListView.builder(
+                      itemCount: searchResponseCubit.newSearchBook.results.length,
+                      itemBuilder: (context, index) {
+                        return BookTile(
+                            title: searchResponseCubit.newSearchBook.results[index].title.length>20?
+                            searchResponseCubit.newSearchBook.results[index].title.substring(0,20):
+                            searchResponseCubit.newSearchBook.results[index].title,
+                            coverUrl:searchResponseCubit.newSearchBook.results[index].formats.imageJpeg??AppString.placeholder,
+                            author: searchResponseCubit.newSearchBook.results[index].authors[0].name.length>20?
+                            searchResponseCubit.newSearchBook.results[index].authors[0].name.substring(0,20):
+                            searchResponseCubit.newSearchBook.results[index].authors[0].name,
+                            download: searchResponseCubit.newSearchBook.results[index].downloadCount,
+                            copyRight: searchResponseCubit.newSearchBook.results[index].copyright,
+                            id: searchResponseCubit.newSearchBook.results[index].id,
+                            ontap: () {
+                                searchResponseCubit.navigateReadBook(context, index);
+                            });
+                      })
+                  :
+                  Center(child: Text(AppString.topilmadi,
+                  style: TextStyle(color: AppColor.dark,fontSize: AppDimension.textSize(context).bodyLarge!.fontSize),
+                  ),),
+                )
+              ],
+            ),
           ),
         );
       }

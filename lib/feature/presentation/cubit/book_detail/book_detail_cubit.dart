@@ -8,7 +8,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:open_file/open_file.dart' as open_file;
 import '../../../business/usecase/category_books_usecase.dart';
 import '../../../data/model/book.dart';
 import '../../../data/model/search_book.dart';
@@ -84,34 +83,5 @@ class BookDetailCubit extends Cubit<BookDetailState>{
     emit(BookDetailLoadedState());
   }
 
-
-
-  Future openfile(var url, var title) async {
-    final file = await downloadfile(url, title!);
-    if (file == null) {
-      return;
-    }
-    open_file.OpenFile.open(file.path);
-  }
-
-  Future<i.File?> downloadfile(var url, var filename) async {
-    try {
-      var appstorage = await getApplicationDocumentsDirectory();
-      final file = i.File('${appstorage.path}/$filename');
-      final Response = await Dio().get(url,
-          options: Options(
-            responseType: ResponseType.bytes,
-            followRedirects: false,
-            receiveTimeout: 0,
-          ));
-      final raf = file.openSync(mode: i.FileMode.write);
-      raf.writeFromSync(Response.data);
-      await raf.close();
-
-      return file;
-    } catch (e) {
-      return null;
-    }
-  }
 
 }

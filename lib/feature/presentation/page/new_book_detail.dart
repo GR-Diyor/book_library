@@ -24,7 +24,7 @@ class _NewBookDetailState extends State<NewBookDetail> {
     super.initState();
     newBookDetailCubit = BlocProvider.of(context);
    newBookDetailCubit.newBook = widget.book;
-   newBookDetailCubit.matchBook();
+   newBookDetailCubit.matchBook(widget.book.id);
   }
 
 

@@ -1,25 +1,25 @@
-import 'package:book_library/core/config/utill/dialog.dart';
-import 'package:book_library/feature/presentation/page/read_book.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../../core/config/color.dart';
 import '../../../core/config/dimension.dart';
 import '../../../core/config/string.dart';
-import '../cubit/new_book_detail/new_book_detail_cubit.dart';
+import '../cubit/new_search_book_detail/new_search_book_detail_cubit.dart';
 
-class NewBookDetailBody extends StatelessWidget {
-  final NewBookDetailCubit newBookDetailCubit;
-  const NewBookDetailBody({required this.newBookDetailCubit,super.key});
+class NewSearchBookDetailBody extends StatelessWidget {
+  final NewSearchDetailCubit newSearchDetailCubit;
+  const NewSearchBookDetailBody({required this.newSearchDetailCubit,super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: AppDimension.width(context),
       decoration:  BoxDecoration(
-        color: AppColor.background,
+          color: AppColor.background,
           image: DecorationImage(
-            alignment: Alignment.topCenter,
+              alignment: Alignment.topCenter,
               opacity: 0.4,
               image: AssetImage(AppString.overlay),
               fit: BoxFit.contain)),
@@ -44,31 +44,14 @@ class NewBookDetailBody extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 25.0),
           child: MaterialButton(
             onPressed: () async {
-              if(newBookDetailCubit.isDownloaded){
-               newBookDetailCubit.navigateEpubView(context, newBookDetailCubit.newBook.id);
-              }else {
-                if (newBookDetailCubit.newBook.formats?.applicationEpubZip !=
-                    null) {
-                  newBookDetailCubit.loadEpub(context,
-                      newBookDetailCubit.newBook.formats?.applicationEpubZip,
-                  newBookDetailCubit.newBook.id
-                  );
-                } else {
-                  "Bu kitobni yuklab bo'lmaydi".showSnackbar(context);
-                }
-              }
             },
             splashColor: Colors.grey,
             color: Colors.black,
             shape:RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            child: newBookDetailCubit.isDownLoading&&!newBookDetailCubit.isDownloaded?
-            Icon(Icons.download_rounded,color: AppColor.light,): newBookDetailCubit.isDownloaded?Text("Open",style: TextStyle(color: AppColor.light),):Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircularProgressIndicator(color: AppColor.light,),
+            child: Icon(Icons.download_rounded,color: AppColor.light,)
             ),
-          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: Column(
@@ -86,11 +69,11 @@ class NewBookDetailBody extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Hero(
-                          tag: '${newBookDetailCubit.newBook.id+newBookDetailCubit.newBook.downloadCount}',
+                          tag: '${newSearchDetailCubit.newSearchResult.id+newSearchDetailCubit.newSearchResult.downloadCount}',
                           child: CachedNetworkImage(
                             height: 23.h,
                             width: 15.h,
-                            imageUrl: newBookDetailCubit.newBook.formats!.imageJpeg,
+                            imageUrl: newSearchDetailCubit.newSearchResult.formats!.imageJpeg??AppString.placeholder,
                             imageBuilder:(context, imageProvider) =>
                                 Container(
                                   decoration: BoxDecoration(
@@ -110,7 +93,7 @@ class NewBookDetailBody extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            "${newBookDetailCubit.newBook.title.length>20?newBookDetailCubit.newBook.title.substring(0,25):newBookDetailCubit.newBook.title}...",
+                            "${newSearchDetailCubit.newSearchResult.title.length>20?newSearchDetailCubit.newSearchResult.title.substring(0,25):newSearchDetailCubit.newSearchResult.title}...",
                             style: GoogleFonts.lato(
                                 textStyle: const TextStyle(
                                     fontSize: 23,
@@ -119,7 +102,7 @@ class NewBookDetailBody extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "by ${newBookDetailCubit.newBook.authors[0].name.length>20?newBookDetailCubit.newBook.authors[0].name.substring(0,20):newBookDetailCubit.newBook.authors[0].name}"
+                          "by ${newSearchDetailCubit.newSearchResult.authors[0].name.length>20?newSearchDetailCubit.newSearchResult.authors[0].name.substring(0,20):newSearchDetailCubit.newSearchResult.authors[0].name}"
                           ,
                           style: GoogleFonts.lato(
                               textStyle: TextStyle(
@@ -144,7 +127,7 @@ class NewBookDetailBody extends StatelessWidget {
                                   height: 0.5.h,
                                 ),
                                 Text(
-                                  newBookDetailCubit.newBook.copyright?"copyright":"not copyright",
+                                  newSearchDetailCubit.newSearchResult.copyright?"copyright":"not copyright",
                                   style: GoogleFonts.lato(
                                       textStyle:  TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -166,7 +149,7 @@ class NewBookDetailBody extends StatelessWidget {
                                   height: 0.5.h,
                                 ),
                                 Text(
-                                  newBookDetailCubit.newBook.downloadCount.toString(),
+                                  newSearchDetailCubit.newSearchResult.downloadCount.toString(),
                                   style: GoogleFonts.lato(
                                       textStyle: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -188,7 +171,7 @@ class NewBookDetailBody extends StatelessWidget {
                                   height: 0.5.h,
                                 ),
                                 Text(
-                                  newBookDetailCubit.newBook.languages[0].name.toUpperCase(),
+                                  newSearchDetailCubit.newSearchResult.languages[0].name.toUpperCase(),
                                   style: GoogleFonts.lato(
                                       textStyle: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -210,7 +193,7 @@ class NewBookDetailBody extends StatelessWidget {
                                   height: 0.5.h,
                                 ),
                                 Text(
-                                  newBookDetailCubit.newBook.id.toString(),
+                                  newSearchDetailCubit.newSearchResult.id.toString(),
                                   style: GoogleFonts.lato(
                                       textStyle: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -251,17 +234,17 @@ class NewBookDetailBody extends StatelessWidget {
                                   height: 1.h,
                                 ),
                                 Text(
-                                  newBookDetailCubit.newBook.subjects[0],
+                                  newSearchDetailCubit.newSearchResult.subjects[0],
                                   style: GoogleFonts.lato(
                                       color: Colors.grey[600], fontSize: 15),
                                 ),
-                                newBookDetailCubit.newBook.subjects.length>1?Text(
-                                  newBookDetailCubit.newBook.subjects[1],
+                                newSearchDetailCubit.newSearchResult.subjects.length>1?Text(
+                                  newSearchDetailCubit.newSearchResult.subjects[1],
                                   style: GoogleFonts.lato(
                                       color: Colors.grey[600], fontSize: 15),
                                 ):const SizedBox.shrink(),
-                                newBookDetailCubit.newBook.subjects.length>2?Text(
-                                  newBookDetailCubit.newBook.subjects[2],
+                                newSearchDetailCubit.newSearchResult.subjects.length>2?Text(
+                                  newSearchDetailCubit.newSearchResult.subjects[2],
                                   style: GoogleFonts.lato(
                                       color: Colors.grey[600], fontSize: 15),
                                 ):const SizedBox.shrink(),

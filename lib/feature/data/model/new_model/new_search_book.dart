@@ -248,7 +248,7 @@ class NewSearchBook {
   int count;
   String? next;
   String? previous;
-  List<Result> results;
+  List<NewSearchResult> results;
 
   NewSearchBook({
     required this.count,
@@ -262,7 +262,7 @@ class NewSearchBook {
     count: json["count"],
     next: json["next"],
     previous: json["previous"],
-    results: List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
+    results: List<NewSearchResult>.from(json["results"].map((x) => NewSearchResult.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -273,7 +273,7 @@ class NewSearchBook {
   };
 }
 
-class Result {
+class NewSearchResult {
   int id;
   String title;
   List<Author> authors;
@@ -286,7 +286,7 @@ class Result {
   Formats formats;
   int downloadCount;
 
-  Result({
+  NewSearchResult({
     required this.id,
     required this.title,
     required this.authors,
@@ -300,7 +300,7 @@ class Result {
     required this.downloadCount,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory NewSearchResult.fromJson(Map<String, dynamic> json) => NewSearchResult(
     id: json["id"],
     title: json["title"],
     authors: List<Author>.from(json["authors"].map((x) => Author.fromJson(x))),

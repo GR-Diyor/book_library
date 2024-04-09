@@ -50,13 +50,17 @@ class NewHomeCubit extends Cubit<NewHomeState>{
   NewSearchBook? newSearchBook;
   Connectivity connectivity = sl<Connectivity>();
   BooksList? booksList;
+  bool isSearchLoading = false;
   Future<void> navigateSearch(BuildContext context,String? text) async {
     var check = await connectivity.checkConnectivity();
     if(check==ConnectivityResult.none) {
-      'tarmoq mavjud emas'.showSnackbar(context);
+      'Tarmoq mavjud emas'.showSnackbar(context);
     }else {
+
+
       if (text != null && text.isNotEmpty && text.trim() != "") {
         FocusScope.of(context).unfocus();
+        if(text.length<5){"Qidiruv so'zi 5 harfdan kam bo'lmasligi kerak!".showSnackbar(context);return;}
         getNewSearchBook(text.toString(),context);
       }
     }
@@ -64,6 +68,7 @@ class NewHomeCubit extends Cubit<NewHomeState>{
 
   void getNewSearchBook(String text, BuildContext context)async{
     emit(NewHomeLoadingState());
+    isSearchLoading=true;
     try{
       Either<String, String> searchBookData =
       await CategoryBooksUseCase.callnewSearchBook(text: text);
@@ -89,7 +94,7 @@ class NewHomeCubit extends Cubit<NewHomeState>{
     }catch(e){
       emit(NewHomeErrorState(e.toString()));
     }
-
+    isSearchLoading=false;
     emit(NewHomeLoadedState());
   }
 

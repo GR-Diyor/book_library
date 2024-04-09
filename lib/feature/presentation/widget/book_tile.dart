@@ -10,7 +10,6 @@ class BookTile extends StatelessWidget {
   final String coverUrl;
   final String author;
   final int download;
-  final String rating;
   final bool copyRight;
   final int id;
   final VoidCallback ontap;
@@ -21,7 +20,6 @@ class BookTile extends StatelessWidget {
     required this.coverUrl,
     required this.author,
     required this.download,
-    required this.rating,
     required this.copyRight,
     required this.id,
     required this.ontap,
@@ -88,7 +86,7 @@ class BookTile extends StatelessWidget {
                           style: Theme.of(context).textTheme.labelMedium),
                       const SizedBox(height: 5),
                       Text(
-                        "Download count: $download",
+                        "Download: $download",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context).colorScheme.secondary,
                         ),

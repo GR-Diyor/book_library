@@ -9,10 +9,19 @@ class AppTheme{
     colorScheme:ColorScheme.light(brightness: Brightness.light,background: AppColor.light),
     dialogBackgroundColor:AppColor.light,
     primaryColor:AppColor.light,
-    primaryColorDark:AppColor.dark,
+    primaryColorDark:AppColor.light,
     primaryColorLight:AppColor.light,
     scaffoldBackgroundColor:AppColor.light,
     secondaryHeaderColor:AppColor.light,
+    drawerTheme:  DrawerThemeData(
+      scrimColor: AppColor.transparent,
+      backgroundColor: AppColor.light
+    ),
+    appBarTheme: AppBarTheme(
+      iconTheme: IconThemeData(
+        color: AppColor.light,
+      ),
+    ),
   );
 
 
@@ -27,5 +36,14 @@ class AppTheme{
     primaryColorLight:AppColor.light,
     scaffoldBackgroundColor:AppColor.dark,
     secondaryHeaderColor:AppColor.dark,
+    drawerTheme:  DrawerThemeData(
+        scrimColor: AppColor.transparent,
+        backgroundColor: AppColor.light
+    ),
+    appBarTheme: AppBarTheme(
+      iconTheme: IconThemeData(
+        color: AppColor.light,
+      ),
+    ),
   );
  }

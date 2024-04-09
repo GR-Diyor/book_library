@@ -11,6 +11,9 @@ import '../../../business/usecase/category_books_usecase.dart';
 import '../../../data/model/search_book.dart';
 import '../../../data/model/support/new_empty.dart';
 import '../../page/book_detail.dart';
+import '../../page/new_book_detail.dart';
+import '../../page/new_search_book_detail.dart';
+import '../../page/read_book.dart';
 
 class SearchResponseCubit extends Cubit<SearchResponseState> {
   SearchResponseCubit() : super(SearchResponseInitState());
@@ -65,11 +68,10 @@ class SearchResponseCubit extends Cubit<SearchResponseState> {
 
   void navigateReadBook(BuildContext context, int index) {
     if (newSearchBook.results[index].formats.applicationEpubZip!=null) {
-      // Navigator.push(context, MaterialPageRoute(builder: (context) {
-      //   return ReadBook(
-      //   //  epubController: newSearchBook.results[index].,
-      //   );
-      // }));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) {
+              return NewSearchBookDetail(newSearchResult: newSearchBook.results[index]);
+            }));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Kitobni ko'rib bo'lmadi!!!")));
