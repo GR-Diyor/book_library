@@ -1,13 +1,10 @@
 import 'dart:convert';
-import 'dart:io' as i;
-
 import 'package:book_library/core/config/string.dart';
+import 'package:book_library/core/config/utill/dialog.dart';
 import 'package:book_library/feature/presentation/cubit/book_detail/book_detail_state.dart';
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path_provider/path_provider.dart';
 import '../../../business/usecase/category_books_usecase.dart';
 import '../../../data/model/book.dart';
 import '../../../data/model/search_book.dart';
@@ -16,17 +13,17 @@ import '../../../data/model/support/empty.dart';
 class BookDetailCubit extends Cubit<BookDetailState>{
   BookDetailCubit():super(BookDetailInitState());
 
-  var pagecount = "Not available";
-  var desc = "Not available";
-  var pubdate = "Not available";
-  var lang = "Not available";
-  var rating = "Not available";
-  var url ="https://www.bing.com/images/search?view=detailV2&ccid=vx9%2fIUj5&id=3B7650A146D55682645F765E60E786419299154C&thid=OIP.vx9_IUj50utS7cbaiRtoZAHaE8&mediaurl=https%3a%2f%2fst3.depositphotos.com%2f1186248%2f14351%2fi%2f950%2fdepositphotos_143511907-stock-photo-not-available-rubber-stamp.jpg&exph=682&expw=1023&q=not+available&simid=608054098357136066&FORM=IRPRST&ck=BADF0353AC59677CCFAA67227357E3CB&selectedIndex=1&ajaxhist=0&ajaxserp=0";
+  var pagecount = AppString.notaviable;
+  var desc = AppString.notaviable;
+  var pubdate = AppString.notaviable;
+  var lang = AppString.notaviable;
+  var rating = AppString.notaviable;
+  var url = AppString.placeholder;
   late Book book;
   late SearchBook searchBook;
 
   Empty empty = Empty.instance;
-  var DynamicResponse;
+  dynamic dynamicResponse;
 
 
   void getdata(Book book)async {
@@ -45,7 +42,7 @@ class BookDetailCubit extends Cubit<BookDetailState>{
     pagecount = book.items[0].volumeInfo.pageCount.toString();
     rating = book.items[0].volumeInfo.maturityRating.name;
   }
-  void getBook(String id,BuildContext context,{required bool IsSearchBook}) async {
+  void getBook(String id,BuildContext context,{required bool isSearchBook}) async {
 
     emit(BookDetailLoadingState());
     try {
@@ -57,9 +54,9 @@ class BookDetailCubit extends Cubit<BookDetailState>{
           //if right
               (r){
 
-                DynamicResponse = jsonDecode(r);
-                if (DynamicResponse!=null&&DynamicResponse['totalItems'] != empty.totalItems) {
-                  if(IsSearchBook){
+                dynamicResponse = jsonDecode(r);
+                if (dynamicResponse!=null&&dynamicResponse['totalItems'] != empty.totalItems) {
+                  if(isSearchBook){
                     searchBook = searchBookFromJson(r);
                     getSearchData(searchBook);
                   }else{
@@ -69,8 +66,7 @@ class BookDetailCubit extends Cubit<BookDetailState>{
                 }else
                 {
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Qidiruvda kitob topilmadi!!!")));
+                 AppString.notfinded.showSnackbar(context);
                 }
 
 

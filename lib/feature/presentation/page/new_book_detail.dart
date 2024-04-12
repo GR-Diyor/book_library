@@ -1,5 +1,4 @@
 import 'package:book_library/feature/presentation/widget/error.dart';
-import 'package:book_library/feature/presentation/widget/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/new_model/new_books.dart';
@@ -15,7 +14,7 @@ class NewBookDetail extends StatefulWidget {
   State<NewBookDetail> createState() => _NewBookDetailState();
 }
 
-class _NewBookDetailState extends State<NewBookDetail> {
+class _NewBookDetailState extends State<NewBookDetail> with WidgetsBindingObserver{
 
   late NewBookDetailCubit newBookDetailCubit;
   @override
@@ -28,7 +27,21 @@ class _NewBookDetailState extends State<NewBookDetail> {
   }
 
 
-
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if(FocusScope.of(context).hasFocus) {
+      FocusScope.of(context).unfocus();
+    }
+    if(state==AppLifecycleState.hidden||state == AppLifecycleState.paused){
+      WidgetsBinding.instance.addObserver(this);
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +50,7 @@ class _NewBookDetailState extends State<NewBookDetail> {
           if(state is NewBookDetailErrorState){
             return Errors(error: state.error);
           }
-          return NewBookDetailBody(newBookDetailCubit: newBookDetailCubit);
+          return NewBookDetailBody(newBookDetailCubit: newBookDetailCubit,name:widget.book.title);
         }
     );
   }

@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:isar/isar.dart';
 
 part 'local_storage.g.dart';

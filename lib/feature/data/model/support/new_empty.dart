@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final newEmpty = newEmptyFromJson(jsonString);
-
 import 'dart:convert';
 
 NewEmpty newEmptyFromJson(String str) => NewEmpty.fromJson(json.decode(str));

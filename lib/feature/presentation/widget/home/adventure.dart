@@ -30,7 +30,7 @@ class _AdventureState extends State<Adventure> {
                           MaterialPageRoute(builder: (context) {
                             return BookDetail(
                              id: widget.adventure.items![index].volumeInfo!.industryIdentifiers!.first.identifier,
-                              IsSearchBook: false,
+                              isSearchBook: false,
                               );
                           }));
                     },

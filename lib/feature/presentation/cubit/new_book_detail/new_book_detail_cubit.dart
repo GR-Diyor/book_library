@@ -1,4 +1,5 @@
 import 'dart:io' as i;
+import 'package:book_library/core/config/string.dart';
 import 'package:book_library/core/config/utill/dialog.dart';
 import 'package:book_library/feature/data/datasourse/local/local_datasourse.dart';
 import 'package:book_library/feature/data/model/new_model/new_books.dart';
@@ -17,17 +18,17 @@ import 'new_book_detail_state.dart';
 class NewBookDetailCubit extends Cubit<NewBookDetailState>{
   NewBookDetailCubit():super(NewBookDetailInitState());
 
-  var pagecount = "Not available";
-  var desc = "Not available";
-  var pubdate = "Not available";
-  var lang = "Not available";
-  var rating = "Not available";
-  var url ="https://www.bing.com/images/search?view=detailV2&ccid=vx9%2fIUj5&id=3B7650A146D55682645F765E60E786419299154C&thid=OIP.vx9_IUj50utS7cbaiRtoZAHaE8&mediaurl=https%3a%2f%2fst3.depositphotos.com%2f1186248%2f14351%2fi%2f950%2fdepositphotos_143511907-stock-photo-not-available-rubber-stamp.jpg&exph=682&expw=1023&q=not+available&simid=608054098357136066&FORM=IRPRST&ck=BADF0353AC59677CCFAA67227357E3CB&selectedIndex=1&ajaxhist=0&ajaxserp=0";
+  var pagecount = AppString.notaviable;
+  var desc = AppString.notaviable;
+  var pubdate = AppString.notaviable;
+  var lang = AppString.notaviable;
+  var rating = AppString.notaviable;
+  var url =AppString.placeholder;
 
   Empty empty = Empty.instance;
   NewBook newBook = NewBook.instance;
-  var DynamicResponse;
-  Uint8List? EpubFileDownloader;
+  dynamic dynamicResponse;
+  Uint8List? epubFileDownloader;
   bool isDownLoading = true;
   bool isDownloaded = false;
   int currentBookId = 1;
@@ -40,16 +41,18 @@ class NewBookDetailCubit extends Cubit<NewBookDetailState>{
       ConnectivityResult result = await Connectivity().checkConnectivity();
       if (result != ConnectivityResult.none) {
         isDownLoading = false;
-        EpubFileDownloader = await InternetFile.get(epubFile);
+        epubFileDownloader = await InternetFile.get(epubFile);
          currentBookId = id;
-         print(" id: $id");
-         print("current id: $currentBookId");
-         print("epub tupe: ${EpubFileDownloader.runtimeType}");
-        String link = await downloadfile(EpubFileDownloader!,EpubFileDownloader.hashCode.toString());
+         if (kDebugMode) {
+           print(" id: $id");
+           print("current id: $currentBookId");
+           print("epub tupe: ${epubFileDownloader.runtimeType}");
+         }
+        String link = await downloadfile(epubFileDownloader!,epubFileDownloader.hashCode.toString());
         EpubData epubData = EpubData(currentBookId,link);
-        print("hashcode:  ${epubData.hashCode}");
-        //156032627
-        //946023017
+        if (kDebugMode) {
+          print("match hashcode:  ${epubData.hashCode}");
+        }
         if(await LocalDatasourse().writeEpubList(epubData)) {
           isDownLoading = true;
           isDownloaded = true;
@@ -57,10 +60,10 @@ class NewBookDetailCubit extends Cubit<NewBookDetailState>{
           isDownLoading = true;
           isDownloaded = false;
         }
-        EpubFileDownloader = null;
+        epubFileDownloader = null;
 
       }else{
-        "Tarmoq mavjud emas".showSnackbar(context);
+        AppString.notConnection.showSnackbar(context);
       }
       emit(NewBookDetailLoadedState());
     }
@@ -90,25 +93,27 @@ class NewBookDetailCubit extends Cubit<NewBookDetailState>{
      emit(NewBookDetailLoadedState());
     }
 
-Future<void> navigateEpubView(BuildContext context,int id) async {
+Future<void> navigateEpubView(BuildContext context,int id,String name) async {
   var list = await LocalDatasourse().getEpubList();
 
   bool navigate= false;
   Uint8List? epub;
   if(list!=null){
     for(EpubData item in list.epubList){
-      print("database id: ${item.epub_id}");
-      print("id: $id");
+      if (kDebugMode) {
+        print("database id: ${item.epub_id}");
+        print("id: $id");
+      }
       if(item.epub_id==id){
         final file = i.File(item.epub);
         epub =  await file.readAsBytes();
-        if(epub!=null) {
+        if(epub.isNotEmpty) {
           navigate = true;
           epubController = EpubController(
             // Load document
             document: EpubDocument.openData(epub),
             // Set start point
-            epubCfi: 'epubcfi(/6/6[chapter-2]!/4/2/1612)',
+            epubCfi: AppString.epubcfi,
           );
         }
         break;
@@ -117,7 +122,7 @@ Future<void> navigateEpubView(BuildContext context,int id) async {
   }
   if(navigate) {
     Navigator.push(context, MaterialPageRoute(
-        builder: (ctx) => ReadBook(epubController: epubController,)));
+        builder: (ctx) => ReadBook(epubController: epubController,id:id,name:name)));
   }
   }
 

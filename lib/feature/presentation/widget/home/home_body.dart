@@ -1,6 +1,5 @@
 import 'package:book_library/feature/data/model/books.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/config/color.dart';
 import '../../../../core/config/dimension.dart';
 import '../../../../core/config/string.dart';
@@ -88,21 +87,21 @@ class HomeBody extends StatelessWidget {
                       height: 2.h,
                     ),
                     Text(AppString.explorethebook,
-                        style: GoogleFonts.lato(
-                            textStyle: const TextStyle(
-                                color: Colors.white,
+                        style:TextStyle(
+                                color: AppColor.light,
                                 fontSize: 19,
-                                fontWeight: FontWeight.bold))),
+                                fontFamily: AppString.latoRegular,
+                                fontWeight: FontWeight.bold)),
                     SizedBox(
                       height: 1.h,
                     ),
                     Text(
                      AppString.findthelight,
-                      style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
+                      style: TextStyle(
                               fontSize: 13,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)),
+                              color: AppColor.light,
+                              fontFamily: AppString.latoRegular,
+                              fontWeight: FontWeight.bold),
                     )
                   ],
                 ),

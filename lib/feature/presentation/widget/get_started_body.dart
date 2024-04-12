@@ -59,32 +59,19 @@ class GetStartedWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 10.sp,
+                        height: 20.sp,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 35.0),
+                        padding: EdgeInsets.symmetric(horizontal: 20.sp),
                         child: Text(
-                          AppString.discover,
+                          '${AppString.discover}\n${AppString.newWorld}',
                           style:
                           TextStyle(
                               color: Colors.black,
-                              fontSize: AppDimension.textSize(context).headlineMedium!.fontSize,
+                              fontSize: AppDimension.textSize(context).headlineSmall!.fontSize,
                               fontWeight: FontWeight.bold),
                           softWrap: false,
-                          maxLines: 1,
-                          overflow: TextOverflow.clip,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 35.0),
-                        child: Text(
-                          AppString.newWorld,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: AppDimension.textSize(context).headlineMedium!.fontSize,
-                              fontWeight: FontWeight.bold),
-                          softWrap: false,
-                          maxLines: 1,
+                          maxLines: 2,
                           overflow: TextOverflow.clip,
                         ),
                       ),
@@ -92,7 +79,7 @@ class GetStartedWidget extends StatelessWidget {
                         height: 1.h,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 35.0),
+                        padding:  EdgeInsets.symmetric(horizontal: 20.sp),
                         child: Text(
                           AppString.diveinto,
                           style:  TextStyle(color: Colors.grey[600],fontSize: AppDimension.textSize(context).bodyMedium!.fontSize,),
@@ -102,7 +89,7 @@ class GetStartedWidget extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 35.0),
+                        padding:  EdgeInsets.symmetric(horizontal: 20.sp),
                         child: Text(
                           AppString.explorestudy,
                           style:
@@ -113,7 +100,7 @@ class GetStartedWidget extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 35.0),
+                        padding:  EdgeInsets.symmetric(horizontal: 20.sp),
                         child: Text(
                           AppString.getinto,
                           style:  TextStyle(color: Colors.grey[600],fontSize: AppDimension.textSize(context).bodyMedium!.fontSize),
@@ -135,13 +122,13 @@ class GetStartedWidget extends StatelessWidget {
                           width: AppDimension.width(context)*0.8,
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
-                              color: Colors.black,
+                              color: AppColor.background,
                               borderRadius: BorderRadius.circular(20)),
                           child:  Text(
                             AppString.explore,
                             style:  TextStyle(
-                                fontSize: AppDimension.LargeText(context),
-                                color: Colors.white,
+                                fontSize: AppDimension.largeText(context),
+                                color: AppColor.light,
                                 fontWeight: FontWeight.w900),
                           ),
                         ),

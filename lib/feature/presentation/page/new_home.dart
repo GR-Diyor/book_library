@@ -1,7 +1,5 @@
-import 'package:book_library/feature/data/datasourse/local/local_datasourse.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../cubit/new_home/new_home_cubit.dart';
 import '../cubit/new_home/new_home_state.dart';
 import '../widget/error.dart';
@@ -17,7 +15,6 @@ class NewHome extends StatefulWidget {
 class _NewHomeState extends State<NewHome> with WidgetsBindingObserver{
 
 
-  TextEditingController t = TextEditingController();
   late NewHomeCubit newHomeCubit;
 
   @override
@@ -27,12 +24,11 @@ class _NewHomeState extends State<NewHome> with WidgetsBindingObserver{
   }
 @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
-    // TODO: implement didChangeAppLifecycleState
-  if(state == AppLifecycleState.inactive||state==AppLifecycleState.detached){
-    WidgetsBinding.instance.addObserver(this);
+  if(FocusScope.of(context).hasFocus) {
+    FocusScope.of(context).unfocus();
   }
   if(state==AppLifecycleState.hidden||state == AppLifecycleState.paused){
-    newHomeCubit.booksList = await LocalDatasourse().getData();
+    WidgetsBinding.instance.addObserver(this);
   }
     super.didChangeAppLifecycleState(state);
   }
@@ -47,18 +43,15 @@ class _NewHomeState extends State<NewHome> with WidgetsBindingObserver{
     return BlocBuilder<NewHomeCubit,NewHomeState>(
         builder: (context,state) {
 
-          // if(state is NewHomeLoadingState){
-          //   return const Loading();
-          // }
           if(state is NewHomeErrorState){
             return Errors(error: state.error);
           }
 
           return NewHomeBody(
             isSearchLoading: newHomeCubit.isSearchLoading,
-            t: t,
+            t: newHomeCubit.t,
             callback: () {
-              newHomeCubit.navigateSearch(context, t.text);
+              newHomeCubit.navigateSearch(context, newHomeCubit.t.text);
             },
             booksList:newHomeCubit.booksList,
           );

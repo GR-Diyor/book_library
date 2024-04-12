@@ -1,10 +1,6 @@
-// To parse this JSON data, do
-//
-//     final books = booksFromJson(jsonString);
-
 import 'dart:convert';
-
 import 'package:isar/isar.dart';
+
 part 'new_books.g.dart';
 
 BooksList booksListFromJson(String str) => BooksList.fromJson(json.decode(str));

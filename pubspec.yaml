@@ -14,7 +14,6 @@ dependencies:
 
 
   cupertino_icons: ^1.0.2
-  google_fonts: any
   #outer service
   url_launcher: ^6.1.5
   #network service
@@ -44,6 +43,7 @@ dependencies:
   #local database
   #isar: ^3.1.0+1
   isar: ^4.0.0-dev.14
+  shared_preferences: ^2.2.2
   #loading animation
   shimmer: ^3.0.0
   #isar_flutter_libs: ^3.1.0+1
@@ -67,6 +67,7 @@ flutter:
   assets:
     - assets/images/
 
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Lato-Regular
+      fonts:
+        - asset: assets/fonts/Lato-Regular.ttf

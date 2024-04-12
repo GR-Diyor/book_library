@@ -14,7 +14,7 @@ class NewSearchBookDetail extends StatefulWidget {
   State<NewSearchBookDetail> createState() => _NewSearchBookDetailState();
 }
 
-class _NewSearchBookDetailState extends State<NewSearchBookDetail> {
+class _NewSearchBookDetailState extends State<NewSearchBookDetail> with WidgetsBindingObserver{
 
   late NewSearchDetailCubit newSearchDetailCubit;
   @override
@@ -23,8 +23,23 @@ class _NewSearchBookDetailState extends State<NewSearchBookDetail> {
     super.initState();
     newSearchDetailCubit = BlocProvider.of(context);
     newSearchDetailCubit.newSearchResult = widget.newSearchResult;
+    newSearchDetailCubit.matchBook(widget.newSearchResult.id);
   }
-
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if(FocusScope.of(context).hasFocus) {
+      FocusScope.of(context).unfocus();
+    }
+    if(state==AppLifecycleState.hidden||state == AppLifecycleState.paused){
+      WidgetsBinding.instance.addObserver(this);
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +48,7 @@ class _NewSearchBookDetailState extends State<NewSearchBookDetail> {
           if(state is NewSearchBookErrorState){
             return Errors(error: state.error);
           }
-          return NewSearchBookDetailBody(newSearchDetailCubit: newSearchDetailCubit);
+          return NewSearchBookDetailBody(newSearchDetailCubit: newSearchDetailCubit,name: widget.newSearchResult.title,);
         }
     );
   }

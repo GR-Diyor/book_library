@@ -1,8 +1,6 @@
-
+import 'package:book_library/core/config/utill/dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import '../../../core/config/color.dart';
 import '../../../core/config/dimension.dart';
 import '../../../core/config/string.dart';
@@ -10,7 +8,8 @@ import '../cubit/new_search_book_detail/new_search_book_detail_cubit.dart';
 
 class NewSearchBookDetailBody extends StatelessWidget {
   final NewSearchDetailCubit newSearchDetailCubit;
-  const NewSearchBookDetailBody({required this.newSearchDetailCubit,super.key});
+  final String name;
+  const NewSearchBookDetailBody({required this.newSearchDetailCubit,required this.name,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +27,10 @@ class NewSearchBookDetailBody extends StatelessWidget {
           backgroundColor: AppColor.transparent,
           title:  Text(
             AppString.detail,
-            style: GoogleFonts.lato(
-                textStyle:
-                TextStyle(color: Colors.white, fontSize:AppDimension.textSize(context).bodyMedium!.fontSize)),
+            style:
+                TextStyle(color: AppColor.light,
+                    fontFamily: AppString.latoRegular,
+                    fontSize:AppDimension.textSize(context).bodyMedium!.fontSize),
           ),
           centerTitle: true,
           leading:  GestureDetector(
@@ -42,15 +42,30 @@ class NewSearchBookDetailBody extends StatelessWidget {
         backgroundColor: AppColor.transparent,
         floatingActionButton: Padding(
           padding: const EdgeInsets.symmetric(vertical: 25.0),
-          child: MaterialButton(
+          child: FilledButton(
             onPressed: () async {
+              if(newSearchDetailCubit.isDownloaded){
+                newSearchDetailCubit.navigateEpubView(context, newSearchDetailCubit.newSearchResult.id,name);
+              }else {
+                if (newSearchDetailCubit.newSearchResult.formats.applicationEpubZip !=
+                    null) {
+                  newSearchDetailCubit.loadEpub(context,
+                      newSearchDetailCubit.newSearchResult.formats.applicationEpubZip,
+                      newSearchDetailCubit.newSearchResult.id
+                  );
+                } else {
+                  AppString.booknotdownload.showSnackbar(context);
+                }
+              }
             },
-            splashColor: Colors.grey,
-            color: Colors.black,
-            shape:RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(Icons.download_rounded,color: AppColor.light,)
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateColor.resolveWith((states) => AppColor.background),
+                  overlayColor:  MaterialStateColor.resolveWith((states) => AppColor.transparent)
+              ),
+            child: newSearchDetailCubit.isDownLoading&&!newSearchDetailCubit.isDownloaded?
+            Icon(Icons.download_rounded,color: AppColor.light,): newSearchDetailCubit.isDownloaded?Text(AppString.open,style: TextStyle(color: AppColor.light),):Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircularProgressIndicator(color: AppColor.light,),)
             ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -73,7 +88,7 @@ class NewSearchBookDetailBody extends StatelessWidget {
                           child: CachedNetworkImage(
                             height: 23.h,
                             width: 15.h,
-                            imageUrl: newSearchDetailCubit.newSearchResult.formats!.imageJpeg??AppString.placeholder,
+                            imageUrl: newSearchDetailCubit.newSearchResult.formats.imageJpeg!,
                             imageBuilder:(context, imageProvider) =>
                                 Container(
                                   decoration: BoxDecoration(
@@ -84,7 +99,7 @@ class NewSearchBookDetailBody extends StatelessWidget {
                                 ),
                             progressIndicatorBuilder: (context, url, downloadProgress) =>
                                 Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
-                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                              errorWidget: (context, url, error) => Image(image: AssetImage(AppString.bookAvailable), fit: BoxFit.cover)
                           ),
                         ),
                         SizedBox(
@@ -94,19 +109,19 @@ class NewSearchBookDetailBody extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "${newSearchDetailCubit.newSearchResult.title.length>20?newSearchDetailCubit.newSearchResult.title.substring(0,25):newSearchDetailCubit.newSearchResult.title}...",
-                            style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
+                            style:  TextStyle(
                                     fontSize: 23,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold)),
+                                    color: AppColor.light,
+                                fontFamily: AppString.latoRegular,
+                                    fontWeight: FontWeight.bold),
                           ),
                         ),
                         Text(
-                          "by ${newSearchDetailCubit.newSearchResult.authors[0].name.length>20?newSearchDetailCubit.newSearchResult.authors[0].name.substring(0,20):newSearchDetailCubit.newSearchResult.authors[0].name}"
+                          "${AppString.by} ${newSearchDetailCubit.newSearchResult.authors[0].name.length>20?newSearchDetailCubit.newSearchResult.authors[0].name.substring(0,20):newSearchDetailCubit.newSearchResult.authors[0].name}"
                           ,
-                          style: GoogleFonts.lato(
-                              textStyle: TextStyle(
-                                  fontSize: 15, color: Colors.grey[400])),
+                          style: TextStyle(
+                                  fontSize: 15, color: Colors.grey[400],
+                            fontFamily: AppString.latoRegular,),
                         ),
                         SizedBox(
                           height: 2.h,
@@ -117,88 +132,87 @@ class NewSearchBookDetailBody extends StatelessWidget {
                             Column(
                               children: [
                                 Text(
-                                  "Author",
-                                  style: GoogleFonts.lato(
-                                      textStyle: TextStyle(
+                                  AppString.author,
+                                  style: TextStyle(
                                           fontSize: 15,
-                                          color: Colors.grey[400])),
+                                          color: Colors.grey[400],fontFamily: AppString.latoRegular,),
                                 ),
                                 SizedBox(
                                   height: 0.5.h,
                                 ),
                                 Text(
-                                  newSearchDetailCubit.newSearchResult.copyright?"copyright":"not copyright",
-                                  style: GoogleFonts.lato(
-                                      textStyle:  TextStyle(
+                                  newSearchDetailCubit.newSearchResult.copyright?AppString.copyright:AppString.notcopyright,
+                                  style:TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15,
-                                          color: AppColor.light)),
+                                          color: AppColor.light,
+                                    fontFamily: AppString.latoRegular,),
                                 )
                               ],
                             ),
                             Column(
                               children: [
                                 Text(
-                                  AppString.downloadCount,
-                                  style: GoogleFonts.lato(
-                                      textStyle: TextStyle(
+                                  AppString.download,
+                                  style:  TextStyle(
                                           fontSize: 15,
-                                          color: Colors.grey[400])),
+                                          color: Colors.grey[400],
+                                    fontFamily: AppString.latoRegular,),
                                 ),
                                 SizedBox(
                                   height: 0.5.h,
                                 ),
                                 Text(
                                   newSearchDetailCubit.newSearchResult.downloadCount.toString(),
-                                  style: GoogleFonts.lato(
-                                      textStyle: TextStyle(
+                                  style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15,
-                                          color: AppColor.light)),
+                                          color: AppColor.light,
+                                    fontFamily: AppString.latoRegular,),
                                 )
                               ],
                             ),
                             Column(
                               children: [
                                 Text(
-                                  "Language",
-                                  style: GoogleFonts.lato(
-                                      textStyle: TextStyle(
+                                  AppString.language,
+                                  style: TextStyle(
                                           fontSize: 15,
-                                          color: Colors.grey[400])),
+                                          color: Colors.grey[400],
+                                    fontFamily: AppString.latoRegular,),
                                 ),
                                 SizedBox(
                                   height: 0.5.h,
                                 ),
                                 Text(
                                   newSearchDetailCubit.newSearchResult.languages[0].name.toUpperCase(),
-                                  style: GoogleFonts.lato(
-                                      textStyle: TextStyle(
+                                  style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15,
-                                          color: AppColor.light)),
+                                          color: AppColor.light,
+                                    fontFamily: AppString.latoRegular,),
                                 )
                               ],
                             ),
                             Column(
                               children: [
                                 Text(
-                                  "id",
-                                  style: GoogleFonts.lato(
-                                      textStyle: TextStyle(
+                                  AppString.id,
+                                  style: TextStyle(
                                           fontSize: 15,
-                                          color: Colors.grey[400])),
+                                          color: Colors.grey[400],
+                                    fontFamily: AppString.latoRegular,),
                                 ),
                                 SizedBox(
                                   height: 0.5.h,
                                 ),
                                 Text(
                                   newSearchDetailCubit.newSearchResult.id.toString(),
-                                  style: GoogleFonts.lato(
-                                      textStyle: TextStyle(
+                                  style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 13,
-                                          color: AppColor.light)),
+                                          color: AppColor.light,
+                                    fontFamily: AppString.latoRegular,),
                                 )
                               ],
                             ),
@@ -223,29 +237,32 @@ class NewSearchBookDetailBody extends StatelessWidget {
                               children: [
                                 Text(
                                   AppString.subjects,
-                                  style: GoogleFonts.lato(
-                                      textStyle: TextStyle(
+                                  style:TextStyle(
                                         color: Colors.grey[900],
                                         fontWeight: FontWeight.bold,
                                         fontSize: 25,
-                                      )),
+                                    fontFamily: AppString.latoRegular,
+                                      ),
                                 ),
                                 SizedBox(
                                   height: 1.h,
                                 ),
-                                Text(
+                                newSearchDetailCubit.newSearchResult.subjects.isNotEmpty?Text(
                                   newSearchDetailCubit.newSearchResult.subjects[0],
-                                  style: GoogleFonts.lato(
+                                  style: TextStyle(
+                                      fontFamily: AppString.latoRegular,
                                       color: Colors.grey[600], fontSize: 15),
-                                ),
+                                ):const SizedBox.shrink(),
                                 newSearchDetailCubit.newSearchResult.subjects.length>1?Text(
                                   newSearchDetailCubit.newSearchResult.subjects[1],
-                                  style: GoogleFonts.lato(
+                                  style: TextStyle(
+                                      fontFamily: AppString.latoRegular,
                                       color: Colors.grey[600], fontSize: 15),
                                 ):const SizedBox.shrink(),
                                 newSearchDetailCubit.newSearchResult.subjects.length>2?Text(
                                   newSearchDetailCubit.newSearchResult.subjects[2],
-                                  style: GoogleFonts.lato(
+                                  style: TextStyle(
+                                      fontFamily: AppString.latoRegular,
                                       color: Colors.grey[600], fontSize: 15),
                                 ):const SizedBox.shrink(),
                               ],

@@ -9,14 +9,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BookDetail extends StatefulWidget {
   final String id;
-  final bool IsSearchBook;
-  const BookDetail({required this.id,required this.IsSearchBook,super.key});
+  final bool isSearchBook;
+  const BookDetail({required this.id,required this.isSearchBook,super.key});
 
   @override
   State<BookDetail> createState() => _BookDetailState();
 }
 
-class _BookDetailState extends State<BookDetail> {
+class _BookDetailState extends State<BookDetail> with WidgetsBindingObserver{
 
   late BookDetailCubit bookDetailCubit;
   @override
@@ -24,12 +24,26 @@ class _BookDetailState extends State<BookDetail> {
     // TODO: implement initState
     super.initState();
     bookDetailCubit = BlocProvider.of(context);
-    bookDetailCubit.getBook(widget.id,context,IsSearchBook: widget.IsSearchBook);
+    bookDetailCubit.getBook(widget.id,context,isSearchBook: widget.isSearchBook);
 
   }
 
 
-
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if(FocusScope.of(context).hasFocus) {
+      FocusScope.of(context).unfocus();
+    }
+    if(state==AppLifecycleState.hidden||state == AppLifecycleState.paused){
+      WidgetsBinding.instance.addObserver(this);
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +55,7 @@ class _BookDetailState extends State<BookDetail> {
         if(state is BookDetailErrorState){
           return Errors(error: state.error);
         }
-        return BookDetailBody(bookDetailCubit: bookDetailCubit,IsSearchBook:widget.IsSearchBook);
+        return BookDetailBody(bookDetailCubit: bookDetailCubit,isSearchBook:widget.isSearchBook);
       }
     );
   }

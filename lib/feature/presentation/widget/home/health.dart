@@ -32,7 +32,7 @@ class _RomanceState extends State<Romance> {
                           MaterialPageRoute(builder: (context) {
                         return BookDetail(
                             id: widget.romance.items![index].volumeInfo!.industryIdentifiers!.first.identifier,
-                          IsSearchBook: false,
+                          isSearchBook: false,
                         );
                       }));
                     },

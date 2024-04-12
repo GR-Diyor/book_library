@@ -33,7 +33,7 @@ class _HorrorState extends State<Horror> {
                           MaterialPageRoute(builder: (context) {
                         return BookDetail(
                             id: widget.horror.items![index].volumeInfo!.industryIdentifiers!.first.identifier,
-                          IsSearchBook: false,
+                          isSearchBook: false,
                         );
                       }));
                     },

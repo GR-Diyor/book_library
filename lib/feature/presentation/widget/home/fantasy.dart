@@ -32,7 +32,7 @@ class _FantasyState extends State<Fantasy> {
                           MaterialPageRoute(builder: (context) {
                         try {
                           return BookDetail(
-                              id: widget.fantasy.items![index].volumeInfo!.industryIdentifiers!.first.identifier,IsSearchBook: false,);
+                              id: widget.fantasy.items![index].volumeInfo!.industryIdentifiers!.first.identifier,isSearchBook: false,);
                         } catch (e) {
                           return Errors(error: e.toString(),);
                         }

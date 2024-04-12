@@ -1,15 +1,16 @@
 class AppString{
   static String appName = 'Book Library';
 
+  ///Fonts
+  static String latoRegular = "Lato-Regular";
 
   ///Image String
   static String placeholder ="https://github.com/GR-Diyor/book_library/blob/main/assets/images/NOT_AVAILABLE.png";
-      //"https://www.bing.com/images/search?view=detailV2&ccid=vx9%2fIUj5&id=3B7650A146D55682645F765E60E786419299154C&thid=OIP.vx9_IUj50utS7cbaiRtoZAHaE8&mediaurl=https%3a%2f%2fst3.depositphotos.com%2f1186248%2f14351%2fi%2f950%2fdepositphotos_143511907-stock-photo-not-available-rubber-stamp.jpg&exph=682&expw=1023&q=not+available&simid=608054098357136066&FORM=IRPRST&ck=BADF0353AC59677CCFAA67227357E3CB&selectedIndex=1&ajaxhist=0&ajaxserp=0";
   static String overlay = "assets/images/overlay.png";
   static String books = "assets/images/books.png";
   static String background = "assets/images/background.png";
   static String background_2 = "assets/images/background_2.png";
-  static String book_available = "assets/images/NOT_AVAILABLE.png";
+  static String bookAvailable = "assets/images/NOT_AVAILABLE.png";
 
   /// new API
   static String newBase = "https://gutendex.com";
@@ -84,14 +85,34 @@ class AppString{
  static String whatit = "What's it about?";
 
  /// new book detail
-static String downloadBook = "Download";
-static String downloadCount = "Download";
+static String download = "Download";
 static String subjects = "Subjects";
 
  ///search response
 static String result = "RESULT";
 static String searchdetail = "DETAILS";
 
-static String topilmadi = "Bu jumla orqali kitob topilmadi";
+static String notfinded = "Bu jumla orqali kitob topilmadi";
 
+
+//etc
+static String errorcases = "Xatolik yuzaga keldi.";
+static String booknotdownload = "Bu kitobni yuklab bo'lmaydi";
+static String id = "id";
+static String by = "By";
+static String author = "Author";
+static String copyright = "CopyRight";
+static String notcopyright = "Not CopyRight";
+static String language = "Language";
+static String publishdate = "Publish date";
+static String awesomeBook = "Awesome eBook";
+static String open = "Open";
+
+
+static String epubcfi = 'epubcfi(/6/6[chapter-2]!/4/2/1612)';
+
+static String notaviable = "Not available";
+static String notConnection = "Tarmoq mavjud emas";
+static String serverException = "Server exception:";
+static String requiredfivesymbols = "Qidiruv so'zi 5 harfdan kam bo'lmasligi kerak!";
 }

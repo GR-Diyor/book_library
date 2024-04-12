@@ -8,7 +8,6 @@ class RemoteDataSource {
   RemoteDataSource() {
     dio = Dio();
     dio
-      ..options.baseUrl = AppString.base
       ..options.connectTimeout = const Duration(seconds: 30000).inSeconds
       ..options.receiveTimeout = const Duration(seconds: 30000).inSeconds
       ..httpClientAdapter
@@ -25,11 +24,10 @@ class RemoteDataSource {
       Response r = await dio.get(
         AppString.base+api+AppString.keyApi
       );
-      //print((r.data));
       if (r.statusCode == 200) {
         return Right(jsonEncode(r.data));
       }
-      return Left("Server exception:${r.statusCode}");
+      return Left("${AppString.serverException}${r.statusCode}");
     } catch (e) {
       return Left(e.toString());
     }
@@ -41,7 +39,6 @@ class RemoteDataSource {
       Response r = await dio.get(
           AppString.base+api+id+AppString.keyApi
       );
-      // id    "9780593629888"
       if (r.statusCode == 200) {
         return Right(jsonEncode(r.data));
       }
@@ -61,7 +58,7 @@ class RemoteDataSource {
       if (r.statusCode == 200) {
         return Right(jsonEncode(r.data));
       }
-      return Left("Server exception:${r.statusCode}");
+      return Left("${AppString.serverException}${r.statusCode}");
     } catch (e) {
       return Left(e.toString());
     }
@@ -75,11 +72,10 @@ class RemoteDataSource {
       Response r = await dio.get(
           AppString.newBase+api
       );
-    //  print((r.data));
       if (r.statusCode == 200) {
         return Right(jsonEncode(r.data));
       }
-      return Left("Server exception:${r.statusCode}");
+      return Left("${AppString.serverException}${r.statusCode}");
     } catch (e) {
       return Left(e.toString());
     }
@@ -91,11 +87,10 @@ class RemoteDataSource {
       Response r = await dio.get(
           AppString.newBase+AppString.newSearchBook+text
       );
-      // print((r.data));
       if (r.statusCode == 200) {
         return Right(jsonEncode(r.data));
       }
-      return Left("Server exception:${r.statusCode}");
+      return Left("${AppString.serverException}${r.statusCode}");
     } on DioError catch (e) {
       return Left(e.message.toString());
     }

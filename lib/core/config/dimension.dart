@@ -7,9 +7,9 @@ class AppDimension{
 
 
   static TextTheme textSize(context) => Theme.of(context).textTheme;
-  static double LargeText(context)=>Theme.of(context).textTheme.labelLarge!.fontSize!;
-  static double MediumText(context)=>Theme.of(context).textTheme.labelMedium!.fontSize!;
-  static double SmallText(context)=>Theme.of(context).textTheme.labelSmall!.fontSize!;
+  static double largeText(context)=>Theme.of(context).textTheme.labelLarge!.fontSize!;
+  static double mediumText(context)=>Theme.of(context).textTheme.labelMedium!.fontSize!;
+  static double smallText(context)=>Theme.of(context).textTheme.labelSmall!.fontSize!;
 
 
 

@@ -10,13 +10,13 @@ import '../../page/new_home.dart';
 
 class GetStartedCubit extends Cubit<GetStartedState> {
   GetStartedCubit() : super(GetStartedInitState());
+  late Books books1;
+  late Books books2;
+  late Books books3;
+  late Books books4;
 
   void getcategorydata(BuildContext context) async {
     emit(GetStartedLoadingState());
-    late Books books1;
-    late Books books2;
-    late Books books3;
-    late Books books4;
     try {
       Either<String, String> thrillerdata =
       await CategoryBooksUseCase.callCategory(AppString.thrillerApi);
@@ -46,7 +46,6 @@ class GetStartedCubit extends Cubit<GetStartedState> {
               (l) => emit(GetStartedErrorState(l)),
           //if right
               (r) => books4 = booksFromJson(r));
-      // navigateHome(context, books1, books2, books3, books4);
     } catch (e) {
       emit(GetStartedErrorState(e.toString()));
     }

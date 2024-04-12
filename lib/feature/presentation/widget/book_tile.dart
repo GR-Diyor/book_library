@@ -2,7 +2,6 @@ import 'package:book_library/core/config/color.dart';
 import 'package:book_library/core/config/dimension.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 import '../../../core/config/string.dart';
 
 class BookTile extends StatelessWidget {
@@ -32,6 +31,7 @@ class BookTile extends StatelessWidget {
       child: InkWell(
         onTap: ontap,
         child: Container(
+          margin: EdgeInsets.only(left:1.w,right: 1.w),
           padding:  EdgeInsets.all(1.h),
           decoration: BoxDecoration(
             color: AppColor.cardColor.withOpacity(0.2),
@@ -67,7 +67,7 @@ class BookTile extends StatelessWidget {
                         ),
                       progressIndicatorBuilder: (context, url, downloadProgress) =>
                           Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
-                    errorWidget: (context, url, error) => Image(image: AssetImage(AppString.book_available), fit: BoxFit.cover),
+                    errorWidget: (context, url, error) => Image(image: AssetImage(AppString.bookAvailable), fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -82,11 +82,11 @@ class BookTile extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       const SizedBox(height: 4),
-                      Text("By : $author",
+                      Text("${AppString.by} : $author",
                           style: Theme.of(context).textTheme.labelMedium),
                       const SizedBox(height: 5),
                       Text(
-                        "Download: $download",
+                        "${AppString.download}: $download",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context).colorScheme.secondary,
                         ),
@@ -96,7 +96,7 @@ class BookTile extends StatelessWidget {
                         children: [
                           copyRight?const Icon(Icons.star,color: Colors.yellow,size: 25,):const SizedBox.shrink(),
                           Text(
-                            copyRight?"CopyRight":"Not CopyRight",
+                            copyRight?AppString.copyright:AppString.notcopyright,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],

@@ -2,7 +2,6 @@ import 'package:book_library/feature/presentation/cubit/get_started/get_started_
 import 'package:book_library/feature/presentation/cubit/get_started/get_started_state.dart';
 import 'package:book_library/feature/presentation/widget/error.dart';
 import 'package:book_library/feature/presentation/widget/get_started_body.dart';
-import 'package:book_library/feature/presentation/widget/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,9 +29,6 @@ class _GetStartedState extends State<GetStarted> {
     return  BlocBuilder<GetStartedCubit,GetStartedState>(
         builder: (context,state) {
 
-          // if(state is GetStartedLoadingState){
-          //    return const Loading();
-          // }
           if(state is GetStartedLoadedState){
           }
           if(state is GetStartedErrorState){

@@ -2,10 +2,8 @@ import 'package:book_library/core/config/dimension.dart';
 import 'package:book_library/feature/data/model/new_model/new_search_book.dart';
 import 'package:book_library/feature/presentation/cubit/search_response/search_response_cubit.dart';
 import 'package:book_library/feature/presentation/cubit/search_response/search_response_state.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../../core/config/color.dart';
 import '../../../core/config/string.dart';
 import '../widget/book_tile.dart';
@@ -20,7 +18,7 @@ class SearchResponse extends StatefulWidget {
   State<SearchResponse> createState() => _SearchResponseState();
 }
 
-class _SearchResponseState extends State<SearchResponse> {
+class _SearchResponseState extends State<SearchResponse>with WidgetsBindingObserver {
  late SearchResponseCubit searchResponseCubit;
 
   @override
@@ -30,6 +28,21 @@ class _SearchResponseState extends State<SearchResponse> {
     searchResponseCubit = BlocProvider.of<SearchResponseCubit>(context);
     searchResponseCubit.newSearchBook = widget.newSearchBook;
   }
+ @override
+ Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+   if(FocusScope.of(context).hasFocus) {
+     FocusScope.of(context).unfocus();
+   }
+   if(state==AppLifecycleState.hidden||state == AppLifecycleState.paused){
+     WidgetsBinding.instance.addObserver(this);
+   }
+   super.didChangeAppLifecycleState(state);
+ }
+ @override
+ void dispose() {
+   WidgetsBinding.instance.removeObserver(this);
+   super.dispose();
+ }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +54,6 @@ class _SearchResponseState extends State<SearchResponse> {
         if(state is SearchResponseError){
           return Errors(error: state.error);
         }
-
         return Container(
           width: AppDimension.width(context),
           decoration:BoxDecoration(
@@ -83,7 +95,7 @@ class _SearchResponseState extends State<SearchResponse> {
                             title: searchResponseCubit.newSearchBook.results[index].title.length>20?
                             searchResponseCubit.newSearchBook.results[index].title.substring(0,20):
                             searchResponseCubit.newSearchBook.results[index].title,
-                            coverUrl:searchResponseCubit.newSearchBook.results[index].formats.imageJpeg??AppString.placeholder,
+                            coverUrl:searchResponseCubit.newSearchBook.results[index].formats.imageJpeg!=null?searchResponseCubit.newSearchBook.results[index].formats.imageJpeg!:AppString.placeholder,
                             author: searchResponseCubit.newSearchBook.results[index].authors[0].name.length>20?
                             searchResponseCubit.newSearchBook.results[index].authors[0].name.substring(0,20):
                             searchResponseCubit.newSearchBook.results[index].authors[0].name,
@@ -95,7 +107,7 @@ class _SearchResponseState extends State<SearchResponse> {
                             });
                       })
                   :
-                  Center(child: Text(AppString.topilmadi,
+                  Center(child: Text(AppString.notfinded,
                   style: TextStyle(color: AppColor.dark,fontSize: AppDimension.textSize(context).bodyLarge!.fontSize),
                   ),),
                 )

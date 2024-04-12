@@ -2,12 +2,11 @@ import 'package:book_library/core/config/dimension.dart';
 import 'package:book_library/feature/data/model/new_model/new_books.dart';
 import 'package:book_library/feature/presentation/page/new_book_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../../../core/config/color.dart';
 import '../../../core/config/string.dart';
 import 'book_tile.dart';
+import 'loading_animation_widget.dart';
 
 class NewHomeBody extends StatelessWidget {
   final bool isSearchLoading;
@@ -53,13 +52,20 @@ class NewHomeBody extends StatelessWidget {
                           child: TextField(
                             controller: t,
                             cursorColor: AppColor.background,
-                            cursorHeight: AppDimension.textSize(context).bodyLarge!.fontSize,
+                            scribbleEnabled: false,
+                            showCursor: true,
+                            autocorrect: false,
+                            textInputAction: TextInputAction.done,
+                            cursorWidth: 0.6,
+                            cursorOpacityAnimates: true,
+                            cursorRadius: Radius.zero,
                             maxLines: 1,
                             decoration: InputDecoration(
+                              isDense: false,
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: const EdgeInsets.all(10),
                                 hintText: AppString.searchbook,
+                                contentPadding: EdgeInsets.zero,
                                 hintStyle: TextStyle(
                                     fontSize: AppDimension.textSize(context)
                                         .bodyMedium!
@@ -67,7 +73,8 @@ class NewHomeBody extends StatelessWidget {
                                 prefixIcon: const Icon(Icons.search),
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.circular(40))),
+                                    borderRadius: BorderRadius.circular(30)),
+                            ),
                           ),
                         ),
                       ),
@@ -95,21 +102,21 @@ class NewHomeBody extends StatelessWidget {
                       height: 2.h,
                     ),
                     Text(AppString.explorethebook,
-                        style: GoogleFonts.lato(
-                            textStyle: const TextStyle(
-                                color: Colors.white,
+                        style: TextStyle(
+                                color: AppColor.light,
                                 fontSize: 19,
-                                fontWeight: FontWeight.bold))),
+                            fontFamily: AppString.latoRegular,
+                                fontWeight: FontWeight.bold)),
                     SizedBox(
                       height: 1.h,
                     ),
                     Text(
                       AppString.findthelight,
-                      style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
+                      style: TextStyle(
                               fontSize: 13,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)),
+                              color: AppColor.light,
+                          fontFamily: AppString.latoRegular,
+                              fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -124,6 +131,7 @@ class NewHomeBody extends StatelessWidget {
                   children: [
                     Expanded(
                         child: ListView.builder(
+                          padding: EdgeInsets.only(top: 1.h),
                       itemCount: booksList?.results.length,
                       itemBuilder: (BuildContext context, int index) {
                         return BookTile(
@@ -137,11 +145,17 @@ class NewHomeBody extends StatelessWidget {
                             copyRight: booksList!.results[index].copyright,
                             id: booksList!.results[index].id,
                             ontap: () {
-                                        Navigator.push(context,
-                                            MaterialPageRoute(builder: (context) {
-                                              return NewBookDetail(book: booksList!.results[index]);
-                                            }));
+                              if(FocusScope.of(context).hasFocus){
+                                 FocusScope.of(context).unfocus();
+                              }else {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return NewBookDetail(
+                                          book: booksList!.results[index]);
+                                    }));
+                              }
                             });
+
                       },
                     ))
                   ],
@@ -164,57 +178,4 @@ class NewHomeBody extends StatelessWidget {
 }
 
 
-class LoadingAnimationWidget extends StatelessWidget {
-  const LoadingAnimationWidget({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 5,
-      itemBuilder: (context,int index) {
-        return Padding(
-            padding:  EdgeInsets.only(bottom: 1.h),
-          child: Container(
-            width: AppDimension.width(context),
-            padding: EdgeInsets.all(2.w),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: AppColor.dark.withOpacity(0.38),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Row(
-                  children: [
-                     Container(
-                      height: 120,
-                      width: 90,
-                       decoration: BoxDecoration(
-                         borderRadius: BorderRadius.circular(10),
-                         color: AppColor.light,
-                       ),
-                    ),
-                     SizedBox(width: 2.w),
-                    Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(width: AppDimension.width(context)/2,height: 8,color: AppColor.light,),
-                             SizedBox(height: 2.h),
-                            Container(width: AppDimension.width(context)/2,height: 8,color: AppColor.light,),
-                             SizedBox(height: 2.h),
-                            Container(width: AppDimension.width(context)/2,height: 8,color: AppColor.light,),
-                            SizedBox(height: 2.h),
-                            Container(width: AppDimension.width(context)/2,height: 8,color: AppColor.light,),
-                          ],
-                        ))
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      }
-    );
-  }
-}

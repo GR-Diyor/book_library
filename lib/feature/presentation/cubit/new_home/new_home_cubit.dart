@@ -1,14 +1,12 @@
-
 import 'dart:convert';
-
 import 'package:book_library/core/config/utill/dialog.dart';
 import 'package:book_library/feature/data/datasourse/local/local_datasourse.dart';
 import 'package:book_library/feature/data/model/new_model/new_search_book.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../core/config/string.dart';
 import '../../../../di_container.dart';
 import '../../../business/usecase/category_books_usecase.dart';
@@ -23,17 +21,16 @@ class NewHomeCubit extends Cubit<NewHomeState>{
     connectivity.onConnectivityChanged.listen((result)  async {
       BooksList? cacheBooks = await LocalDatasourse().getData();
           var check = await connectivity.checkConnectivity();
-      print(check.name);
+      if (kDebugMode) {
+        print(check.name);
+      }
+      booksList = cacheBooks;
+      getBookList();
+      if(check!=ConnectivityResult.none) {
+        if (kDebugMode) {
+          print("online");
+        }
 
-      if(check!=ConnectivityResult.none&&booksList==null) {
-        print("online");
-        booksList = cacheBooks;
-        getBookList();
-      }else{
-        print("offline");
-        emit(NewHomeLoadedState());
-        booksList = cacheBooks;
-        emit(NewHomeLoadingState());
       }
 
     });
@@ -42,11 +39,12 @@ class NewHomeCubit extends Cubit<NewHomeState>{
 
 
 
+  TextEditingController t = TextEditingController();
 
 
 
   NewEmpty newEmpty = NewEmpty.instance;
-  var DynamicResponse;
+  dynamic dynamicResponse;
   NewSearchBook? newSearchBook;
   Connectivity connectivity = sl<Connectivity>();
   BooksList? booksList;
@@ -54,13 +52,13 @@ class NewHomeCubit extends Cubit<NewHomeState>{
   Future<void> navigateSearch(BuildContext context,String? text) async {
     var check = await connectivity.checkConnectivity();
     if(check==ConnectivityResult.none) {
-      'Tarmoq mavjud emas'.showSnackbar(context);
+      AppString.notConnection.showSnackbar(context);
     }else {
 
 
       if (text != null && text.isNotEmpty && text.trim() != "") {
         FocusScope.of(context).unfocus();
-        if(text.length<5){"Qidiruv so'zi 5 harfdan kam bo'lmasligi kerak!".showSnackbar(context);return;}
+        if(text.length<5){AppString.requiredfivesymbols.showSnackbar(context);return;}
         getNewSearchBook(text.toString(),context);
       }
     }
@@ -77,9 +75,18 @@ class NewHomeCubit extends Cubit<NewHomeState>{
               (l) => emit(NewHomeErrorState(l)),
           //if right
               (r) {
-            DynamicResponse = jsonDecode(r);
-            if (DynamicResponse != null &&
-                DynamicResponse['count'] != newEmpty.count) {
+            dynamicResponse = jsonDecode(r);
+            if (dynamicResponse != null &&
+                dynamicResponse['count'] != newEmpty.count) {
+              NewSearchBook? parsingCheck;
+              try {
+                parsingCheck = newSearchBookFromJson(r);
+              }catch(e){
+                if(parsingCheck==null){
+                  AppString.notfinded.showSnackbar(context);
+                }
+              }
+
               newSearchBook = newSearchBookFromJson(r);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return SearchResponse(
@@ -87,14 +94,14 @@ class NewHomeCubit extends Cubit<NewHomeState>{
                 );
               }));
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Qidiruvda kitob topilmadi!!!")));
+            AppString.notfinded.showSnackbar(context);
             }
           });
     }catch(e){
       emit(NewHomeErrorState(e.toString()));
     }
     isSearchLoading=false;
+    t.value = TextEditingValue.empty;
     emit(NewHomeLoadedState());
   }
 

@@ -1,7 +1,5 @@
 import 'package:book_library/feature/presentation/cubit/book_detail/book_detail_cubit.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/config/color.dart';
 import '../../../core/config/dimension.dart';
@@ -9,31 +7,35 @@ import '../../../core/config/string.dart';
 
 class BookDetailBody extends StatelessWidget {
   final BookDetailCubit bookDetailCubit;
-  final bool IsSearchBook;
-  const BookDetailBody({required this.bookDetailCubit,required this.IsSearchBook,super.key});
+  final bool isSearchBook;
+  const BookDetailBody(
+      {required this.bookDetailCubit, required this.isSearchBook, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColor.background,
-        title:  Text(
+        title: Text(
           AppString.detail,
-          style: GoogleFonts.lato(
-              textStyle:
-              TextStyle(color: Colors.white, fontSize:AppDimension.textSize(context).bodyMedium!.fontSize)),
+          style: TextStyle(
+              color: AppColor.light,
+              fontFamily: AppString.latoRegular,
+              fontSize: AppDimension.textSize(context).bodyMedium!.fontSize),
         ),
         centerTitle: true,
-        leading:  GestureDetector(
-            onTap: (){
+        leading: GestureDetector(
+            onTap: () {
               Navigator.of(context).pop();
             },
-            child: Icon(Icons.arrow_back_ios,color: AppColor.light,)),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: AppColor.light,
+            )),
         actions: [
           GestureDetector(
-            onTap: () async {
-            },
-            child:Icon(
+            onTap: () async {},
+            child: Icon(
               Icons.download_outlined,
               color: AppColor.transparent,
               size: 30,
@@ -46,12 +48,13 @@ class BookDetailBody extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 25.0),
         child: MaterialButton(
           onPressed: () async {
-            await launchUrl(
-                Uri.parse(IsSearchBook?bookDetailCubit.searchBook.items[0].accessInfo.webReaderLink:bookDetailCubit.book.items[0].accessInfo.webReaderLink));
+            await launchUrl(Uri.parse(isSearchBook
+                ? bookDetailCubit.searchBook.items[0].accessInfo.webReaderLink
+                : bookDetailCubit.book.items[0].accessInfo.webReaderLink));
           },
           splashColor: Colors.grey,
           color: Colors.black,
-          child:  Text(
+          child: Text(
             AppString.readbook,
             style: const TextStyle(color: Colors.white),
           ),
@@ -63,7 +66,7 @@ class BookDetailBody extends StatelessWidget {
           Expanded(
               flex: 3,
               child: Container(
-                decoration:  BoxDecoration(
+                decoration: BoxDecoration(
                     image: DecorationImage(
                         opacity: 0.4,
                         image: AssetImage(AppString.overlay),
@@ -88,21 +91,24 @@ class BookDetailBody extends StatelessWidget {
                         height: 1.h,
                       ),
                       Text(
-                        IsSearchBook?bookDetailCubit.searchBook.items[0].volumeInfo.title:bookDetailCubit.book.items[0].volumeInfo.title,
-                        style: GoogleFonts.lato(
-                            textStyle: const TextStyle(
-                                fontSize: 23,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold)),
+                        isSearchBook
+                            ? bookDetailCubit
+                                .searchBook.items[0].volumeInfo.title
+                            : bookDetailCubit.book.items[0].volumeInfo.title,
+                        style: TextStyle(
+                            fontSize: 23,
+                            color: AppColor.light,
+                            fontFamily: AppString.latoRegular,
+                            fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "by ${IsSearchBook?bookDetailCubit.searchBook.items[0].volumeInfo.authors.first:bookDetailCubit.book.items[0].volumeInfo.authors.first}"
-                        ,
-                        style: GoogleFonts.lato(
-                            textStyle: TextStyle(
-                                fontSize: 15, color: Colors.grey[400])),
+                        "${AppString.by} ${isSearchBook ? bookDetailCubit.searchBook.items[0].volumeInfo.authors.first : bookDetailCubit.book.items[0].volumeInfo.authors.first}",
+                        style: TextStyle(
+                            fontFamily: AppString.latoRegular,
+                            fontSize: 15,
+                            color: Colors.grey[400]),
                       ),
-                       SizedBox(
+                      SizedBox(
                         height: 2.h,
                       ),
                       Row(
@@ -112,21 +118,21 @@ class BookDetailBody extends StatelessWidget {
                             children: [
                               Text(
                                 AppString.reting,
-                                style: GoogleFonts.lato(
-                                    textStyle: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.grey[400])),
+                                style: TextStyle(
+                                    fontFamily: AppString.latoRegular,
+                                    fontSize: 15,
+                                    color: Colors.grey[400]),
                               ),
                               SizedBox(
                                 height: 0.5.h,
                               ),
                               Text(
                                 bookDetailCubit.rating,
-                                style: GoogleFonts.lato(
-                                    textStyle:  TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: AppColor.light)),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    fontFamily: AppString.latoRegular,
+                                    color: AppColor.light),
                               )
                             ],
                           ),
@@ -134,65 +140,65 @@ class BookDetailBody extends StatelessWidget {
                             children: [
                               Text(
                                 AppString.pages,
-                                style: GoogleFonts.lato(
-                                    textStyle: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.grey[400])),
+                                style: TextStyle(
+                                    fontFamily: AppString.latoRegular,
+                                    fontSize: 15,
+                                    color: Colors.grey[400]),
                               ),
                               SizedBox(
                                 height: 0.5.h,
                               ),
                               Text(
                                 bookDetailCubit.pagecount,
-                                style: GoogleFonts.lato(
-                                    textStyle: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: AppColor.light)),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    fontFamily: AppString.latoRegular,
+                                    color: AppColor.light),
                               )
                             ],
                           ),
                           Column(
                             children: [
                               Text(
-                                "Language",
-                                style: GoogleFonts.lato(
-                                    textStyle: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.grey[400])),
+                                AppString.language,
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: AppString.latoRegular,
+                                    color: Colors.grey[400]),
                               ),
                               SizedBox(
                                 height: 0.5.h,
                               ),
                               Text(
                                 bookDetailCubit.lang.toUpperCase(),
-                                style: GoogleFonts.lato(
-                                    textStyle: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                        color: AppColor.light)),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    fontFamily: AppString.latoRegular,
+                                    color: AppColor.light),
                               )
                             ],
                           ),
                           Column(
                             children: [
                               Text(
-                                "Publish date",
-                                style: GoogleFonts.lato(
-                                    textStyle: TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.grey[400])),
+                                AppString.publishdate,
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: AppString.latoRegular,
+                                    color: Colors.grey[400]),
                               ),
                               SizedBox(
                                 height: 0.5.h,
                               ),
                               Text(
                                 bookDetailCubit.pubdate.toUpperCase(),
-                                style: GoogleFonts.lato(
-                                    textStyle: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13,
-                                        color: AppColor.light)),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                    fontFamily: AppString.latoRegular,
+                                    color: AppColor.light),
                               )
                             ],
                           ),
@@ -211,30 +217,32 @@ class BookDetailBody extends StatelessWidget {
                   children: [
                     Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 28.0, vertical: 25),
-                          child: ListView(
-                            children: [
-                              Text(
-                                AppString.whatit,
-                                style: GoogleFonts.lato(
-                                    textStyle: TextStyle(
-                                      color: Colors.grey[900],
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 25,
-                                    )),
-                              ),
-                              SizedBox(
-                                height: 1.h,
-                              ),
-                              Text(
-                                bookDetailCubit.desc,
-                                style: GoogleFonts.lato(
-                                    color: Colors.grey[600], fontSize: 15),
-                              )
-                            ],
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 28.0, vertical: 25),
+                      child: ListView(
+                        children: [
+                          Text(
+                            AppString.whatit,
+                            style: TextStyle(
+                              color: Colors.grey[900],
+                              fontWeight: FontWeight.bold,
+                              fontFamily: AppString.latoRegular,
+                              fontSize: 25,
+                            ),
                           ),
-                        ))
+                          SizedBox(
+                            height: 1.h,
+                          ),
+                          Text(
+                            bookDetailCubit.desc,
+                            style: TextStyle(
+                                fontFamily: AppString.latoRegular,
+                                color: Colors.grey[600],
+                                fontSize: 15),
+                          )
+                        ],
+                      ),
+                    ))
                   ],
                 ),
               )),

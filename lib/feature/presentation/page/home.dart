@@ -22,7 +22,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with WidgetsBindingObserver{
 
   TextEditingController t = TextEditingController();
   late HomeCubit homeCubit;
@@ -32,7 +32,21 @@ class _HomeState extends State<Home> {
     super.initState();
     homeCubit = BlocProvider.of(context);
   }
-
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if(FocusScope.of(context).hasFocus) {
+      FocusScope.of(context).unfocus();
+    }
+    if(state==AppLifecycleState.hidden||state == AppLifecycleState.paused){
+      WidgetsBinding.instance.addObserver(this);
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit,HomeState>(

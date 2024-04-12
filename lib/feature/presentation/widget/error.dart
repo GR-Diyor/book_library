@@ -1,5 +1,6 @@
-
 import 'package:flutter/material.dart';
+
+import '../../../core/config/string.dart';
 
 class Errors extends StatefulWidget {
   final String error;
@@ -17,7 +18,7 @@ class _ErrorsState extends State<Errors> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-            child: SingleChildScrollView(child: Text("Xatolik yuzaga keldi.\n${widget.error}")),
+            child: SingleChildScrollView(child: Text("${AppString.errorcases}\n${widget.error}")),
           ),
         ),
       );

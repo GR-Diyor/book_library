@@ -8,7 +8,6 @@ import 'package:book_library/feature/presentation/cubit/search_response/search_r
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-
 import 'feature/presentation/cubit/new_search_book_detail/new_search_book_detail_cubit.dart';
 
 final sl = GetIt.instance;
