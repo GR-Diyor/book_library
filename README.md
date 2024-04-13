@@ -8,4 +8,5 @@
 # new Design
 
 <img src="https://github.com/GR-Diyor/book_library/blob/main/doc/images/new_home.png" width="300" height="600">
+<img src="https://github.com/GR-Diyor/book_library/blob/main/doc/images/new_search.png" width="300" height="600">
 <img src="https://github.com/GR-Diyor/book_library/blob/main/doc/images/read_book.png" width="300" height="600">

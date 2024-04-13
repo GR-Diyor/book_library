@@ -9,6 +9,7 @@ class LoadingAnimationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+        padding: EdgeInsets.only(top: 1.h),
         itemCount: 5,
         itemBuilder: (context,int index) {
           return Padding(
