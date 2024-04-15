@@ -43,7 +43,6 @@ class NewBookDetailBody extends StatelessWidget {
         floatingActionButton: Padding(
           padding: const EdgeInsets.symmetric(vertical: 25.0),
           child: FilledButton(
-
             onPressed: () async {
               if(newBookDetailCubit.isDownloaded){
                newBookDetailCubit.navigateEpubView(context, newBookDetailCubit.newBook.id,name);
@@ -211,7 +210,7 @@ class NewBookDetailBody extends StatelessWidget {
                                 ),
                                 Text(
                                   newBookDetailCubit.newBook.id.toString(),
-                                  style:  TextStyle(
+                                  style:TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 13,
                                       fontFamily: AppString.latoRegular,
