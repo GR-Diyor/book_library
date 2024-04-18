@@ -42,7 +42,7 @@ class RemoteDataSource {
       if (r.statusCode == 200) {
         return Right(jsonEncode(r.data));
       }
-      return Left("Server exception:${r.statusCode}");
+      return Left("${AppString.serverException}${r.statusCode}");
     } catch (e) {
       return Left(e.toString());
     }
